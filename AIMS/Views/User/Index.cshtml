@@ -1,0 +1,81 @@
+﻿@model IEnumerable<AIMS.Models.Users>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+    <section class="inventory-table mt-4">
+        <h2>User control</h2>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by item..." oninput="filterTable()">
+            </div>
+            <div class="col-md-2">
+                <select class="form-select">
+                    <option value="">Branch</option>
+                    <option value="Sheffield">Sheffield</option>
+                    <option value="London">London</option>
+                    <option value="Derby">Derby</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select">
+                    <option value="">Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Associate">Associate</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-dark w-100" asp-action="Create">+ New User</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Table -->
+    <section class="inventory-table mt-4">
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Branch</th>
+                    <th>Role</th>
+                    <th>Created Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+                @if (Model == null)
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No Model Data</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.FirstName</td>
+                            <td>@p.LastName</td>
+                            <td>@p.Branch</td>
+                            <td>@p.Role</td>
+                            <td>@p.CreatedDate</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@p.UserId">✎ Edit</a>
+                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@p.UserId">🗑 Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </section>
+
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+    <script src="~/js/inventory.js"></script>
+</div>
+
+

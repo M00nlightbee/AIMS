@@ -1,0 +1,54 @@
+﻿@model Users
+
+@{
+	ViewData["Title"] = "Update Users Detail";
+}
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+	<h1>Edit Product</h1>
+	<form method="post">
+		<div class="form-group">
+			<label asp-for="FirstName">First Name</label>
+			<input class="form-control" asp-for="FirstName" />
+		</div>
+		<div class="form-group">
+			<label asp-for="LastName">Last Name</label>
+			<input class="form-control" asp-for="LastName" />
+		</div>
+		<div class="form-group">
+			<label asp-for="Email">Email</label>
+			<input class="form-control" asp-for="Email" />
+		</div>
+		<div class="form-group">
+			<label asp-for="UserPassword">User Password</label>
+			<input class="form-control" asp-for="UserPassword" />
+		</div>
+		<div class="form-group">
+			<label asp-for="Branch">Branch</label>
+			<select class="form-select" asp-for="Branch">
+				<option value="Select a branch">Select a branch</option>
+				<option value="Sheffield">Sheffield</option>
+				<option value="London">London</option>
+				<option value="Derby">Derby</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label asp-for="Role">Role</label>
+			<select class="form-select" asp-for="Role">
+				<option value="Select a Role">Select a Role</option>
+				<option value="Admin">Admin</option>
+				<option value="Manager">Manager</option>
+				<option value="Associate">Associate</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label asp-for="UpdatedDate">Updated Date</label>
+			<input class="form-control" asp-for="UpdatedDate" type="date" />
+		</div>
+		<div class="text-center panel-body">
+			<a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
+			<button type="submit" class="btn btn-sm btn-dark">Update User</button>
+		</div>
+	</form>
+</div>
+

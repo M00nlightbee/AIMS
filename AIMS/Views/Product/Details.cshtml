@@ -1,0 +1,37 @@
+﻿@model Product
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+    @if (Model == null)
+    {
+        <p colspan="5" class="text-center">No Model Data</p>
+    }
+    else
+    {
+        <div class="item active">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="">
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12" id="tbodyid">
+            <h2>@Model.ProductName</h2>
+            <hr />
+            <h3 class="price-container">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", Model.Price)<small> *includes tax</small></h3>
+            <hr />
+        </div>
+        <div>
+            <br />
+            <strong>Product description</strong>
+            <p>@Model.ProductDescription</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <a class="btn btn-success btn-lg">Add to cart</a>
+            </div>
+        </div>
+    }
+</div>
+
+
+
