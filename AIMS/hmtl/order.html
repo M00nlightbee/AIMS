@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,22 @@
     <title>Orders</title>
     <link rel="stylesheet" href="css/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        /* Add styles for the printable receipt */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableReceipt, #printableReceipt * {
+                visibility: visible;
+            }
+            #printableReceipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -16,8 +32,10 @@
             <ul class="nav flex-column">
                 <li class="nav-item"><a href="index.html" class="nav-link text-light">Dashboard</a></li>
                 <li class="nav-item"><a href="products.html" class="nav-link text-light">Products</a></li>
-                <li class="nav-item"><a href="inventory.html" class="nav-link text-light">Inventory</a></li>
-                <li class="nav-item"><a href="orders.html" class="nav-link text-light active">Orders</a></li>
+                <li class="nav-item"><a href="inventory.html" class="nav-link text-light active">Inventory</a></li>
+                <li class="nav-item"><a href="orders.html" class="nav-link text-light">Orders</a></li>
+                <li class="nav-item"><a href="history.html" class="nav-link text-light">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-light">User Manager</a></li>
             </ul>
             <button class="btn btn-warning w-100 mt-3">Logout</button>
         </nav>
@@ -29,13 +47,7 @@
                     <h5 class="mb-0">Good Morning, John!</h5>
                     <small>Thursday 07 November 2024</small>
                 </div>
-                <div class="d-flex align-items-center">
-                    <span class="user-icon">👤</span>
-                    <span class="username mx-2">John Doe</span>
-                    <small>Admin</small>
-                </div>
             </header>
-
 
             <!-- Orders Table -->
             <section class="orders-table mt-4">
@@ -52,11 +64,9 @@
                         </tr>
                     </thead>
                     <tbody id="orderTable">
-                        <!-- Dynamically populated rows -->
+                        <!-- Orders will be populated here -->
                     </tbody>
                 </table>
-
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between mt-3">
                     <button class="btn btn-danger" onclick="clearTable()">Clear Orders</button>
                     <button class="btn btn-primary" onclick="window.location.href = 'products.html'">Add more products</button>
@@ -67,36 +77,44 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Printable Invoice (hidden, will be shown only when printing) -->
+<div id="printableReceipt" style="display: none;">
+    <h2 class="text-center">Invoice / Receipt</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody id="printableTable">
+            <!-- Printable orders will be populated here -->
+        </tbody>
+    </table>
+    <div class="text-end">
+        <strong>Total: £<span id="printableTotal"></span></strong>
+    </div>
+</div>
+
 <script>
-    // Load products from products.html (simulated as a JSON)
-    function loadProducts() {
-        // Example: products data (this could come from a dynamic API call)
-        const products = [
-            { id: 1, name: "T-Shirt", price: 10.99 },
-            { id: 2, name: "Jeans", price: 29.99 },
-            { id: 3, name: "Jacket", price: 49.99 },
-        ];
-
-        const productSelect = document.getElementById('productSelect');
-        products.forEach(product => {
-            const option = document.createElement('option');
-            option.value = product.id;
-            option.textContent = `${product.name} - £${product.price.toFixed(2)}`;
-            productSelect.appendChild(option);
-        });
-
-        localStorage.setItem('products', JSON.stringify(products)); // Save products to localStorage
-    }
-
-    // Load current orders from localStorage
+    // Load orders from localStorage and display them in the table
     function loadOrders() {
         const orders = JSON.parse(localStorage.getItem('orders')) || [];
         const tableBody = document.getElementById('orderTable');
         tableBody.innerHTML = ''; // Clear the table before populating
 
+        if (orders.length === 0) {
+            const emptyRow = document.createElement('tr');
+            emptyRow.innerHTML = '<td colspan="6" class="text-center">No orders yet.</td>';
+            tableBody.appendChild(emptyRow);
+        }
+
         orders.forEach((order, index) => {
-            const totalPrice = (order.quantity * order.price).toFixed(2); // Calculate total price for each order
+            const totalPrice = (order.quantity * order.price).toFixed(2); // Calculate total price
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${index + 1}</td>
@@ -109,52 +127,10 @@
             tableBody.appendChild(row);
         });
 
-        // Update the total price for all orders at the bottom
-        updateTotalPrice();
+        updateTotalPrice(); // Update the total amount
     }
 
-    // Add new product to the order list in localStorage
-    document.getElementById('orderForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const productId = document.getElementById('productSelect').value;
-        const quantity = document.getElementById('quantity').value;
-        const size = document.getElementById('size').value;
-
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const selectedProduct = products.find(product => product.id == productId);
-
-        if (!selectedProduct) {
-            alert('Product not found.');
-            return;
-        }
-
-        const newOrder = { 
-            itemName: selectedProduct.name, 
-            price: selectedProduct.price, 
-            quantity, 
-            size
-        };
-
-        // Get existing orders or create an empty array
-        const orders = JSON.parse(localStorage.getItem('orders')) || [];
-        orders.push(newOrder);
-        localStorage.setItem('orders', JSON.stringify(orders));
-
-        loadOrders(); // Refresh the order table
-        e.target.reset(); // Clear the form
-    });
-
-    // Clear all orders from the table and localStorage
-    function clearTable() {
-        if (confirm('Are you sure you want to clear all orders?')) {
-            localStorage.removeItem('orders');
-            loadOrders(); // Refresh the order table
-            alert('All orders cleared.');
-        }
-    }
-
-    // Update the total price for all orders
+    // Update total price for all orders
     function updateTotalPrice() {
         const orders = JSON.parse(localStorage.getItem('orders')) || [];
         let totalAmount = 0;
@@ -162,35 +138,69 @@
             totalAmount += order.quantity * order.price;
         });
 
-        const totalElement = document.getElementById('totalPrice');
-        if (!totalElement) {
-            // Add a new element for total price if it doesn't exist
+        // Check if there's already a total row, if not, create it
+        const existingTotalRow = document.getElementById('totalPriceRow');
+        if (existingTotalRow) {
+            existingTotalRow.querySelector('td:last-child').textContent = `£${totalAmount.toFixed(2)}`;
+        } else {
             const totalRow = document.createElement('tr');
+            totalRow.id = 'totalPriceRow'; // Add an ID for easy reference
             totalRow.innerHTML = `
                 <td colspan="5" class="text-end"><strong>Total:</strong></td>
                 <td><strong>£${totalAmount.toFixed(2)}</strong></td>
             `;
             document.getElementById('orderTable').appendChild(totalRow);
-        } else {
-            // If the total row exists, update its value
-            totalElement.textContent = `£${totalAmount.toFixed(2)}`;
         }
     }
 
-    // Generate and print invoice/receipt
-    function printInvoice() {
-        const orders = JSON.parse(localStorage.getItem('orders')) || [];
-        const totalAmount = orders.reduce((total, order) => total + (order.quantity * order.price), 0);
-
-        // Print logic can go here, similar to the previous implementation
-        // (you can create a new window and format the invoice with the orders and total amount)
+    // Clear orders from localStorage
+    function clearTable() {
+        if (confirm('Are you sure you want to clear all orders?')) {
+            localStorage.removeItem('orders');
+            loadOrders();  // Reload the table after clearing
+            alert('All orders cleared.');
+        }
     }
 
-    // Load products when page is loaded
-    window.onload = function () {
-        loadProducts();
-        loadOrders();
-    };
+    // Function to print the invoice
+    function printInvoice() {
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const printableTableBody = document.getElementById('printableTable');
+        printableTableBody.innerHTML = ''; // Clear the printable table
+
+        let totalAmount = 0;
+        orders.forEach((order, index) => {
+            const totalPrice = (order.quantity * order.price).toFixed(2);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${order.itemName}</td>
+                <td>${order.quantity}</td>
+                <td>${order.size}</td>
+                <td>£${order.price}</td>
+                <td>£${totalPrice}</td>
+            `;
+            printableTableBody.appendChild(row);
+
+            totalAmount += order.quantity * order.price;
+        });
+
+        // Set the total price in the printable receipt
+        document.getElementById('printableTotal').textContent = totalAmount.toFixed(2);
+
+        // Show the printable receipt
+        document.getElementById('printableReceipt').style.display = 'block';
+
+        // Trigger the print dialog
+        window.print();
+
+        // Hide the printable receipt after printing
+        document.getElementById('printableReceipt').style.display = 'none';
+    }
+
+    window.onload = loadOrders; // Load orders when the page loads
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

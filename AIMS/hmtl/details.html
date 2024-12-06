@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="css/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
+            <h2 class="text-center py-3">AIMS</h2>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="index.html" class="nav-link text-light">Dashboard</a></li>
+                <li class="nav-item"><a href="products.html" class="nav-link text-light">Products</a></li>
+                <li class="nav-item"><a href="inventory.html" class="nav-link text-light active">Inventory</a></li>
+                <li class="nav-item"><a href="orders.html" class="nav-link text-light">Orders</a></li>
+                <li class="nav-item"><a href="history.html" class="nav-link text-light">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-light">User Manager</a></li>
+            </ul>
+            <button class="btn btn-warning w-100 mt-3">Logout</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto px-md-4">
+            <header class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                <div>
+                    <h5 class="mb-0">Good Morning, John!</h5>
+                    <small>Thursday 07 November 2024</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="user-icon">👤</span>
+                    <span class="username mx-2">John Doe</span>
+                    <small>Admin</small>
+                </div>
+            </header>
+
+            <!-- Product Info -->
+            <div class="item active">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder image for product">
+            </div>
+            <div class="col-md-7 col-sm-12 col-xs-12" id="product-info">
+                <h2 id="product-name">Example Product Name</h2>
+                <hr />
+                <h3 class="price-container" id="product-price">£20.00<small> *includes tax</small></h3>
+                <hr />
+            </div>
+
+            <div>
+                <br />
+                <strong>Product description</strong>
+                <p id="product-description">Example product description goes here. Replace this text dynamically.</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <button class="btn btn-success btn-lg" onclick="addToCart()">Add to cart</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Function to add the product to the cart (localStorage)
+    function addToCart() {
+        const productName = document.getElementById('product-name').innerText;
+        const productPrice = parseFloat(document.getElementById('product-price').innerText.replace('£', '').split('*')[0].trim());
+        const productSize = prompt('Enter size (e.g., S, M, L, XL):', 'M');
+        const productQuantity = parseInt(prompt('Enter quantity:', '1'), 10);
+
+        // Validate user input
+        if (!productSize || isNaN(productQuantity) || productQuantity <= 0) {
+            alert('Invalid input! Please enter valid size and quantity.');
+            return;
+        }
+
+        // Create an order item object
+        const orderItem = {
+            itemName: productName,
+            price: productPrice.toFixed(2),
+            size: productSize,
+            quantity: productQuantity,
+        };
+
+        // Get existing orders from localStorage or create a new array if none exist
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+        // Check if the product (with same name and size) already exists in the orders
+        const existingOrder = orders.find(order => order.itemName === productName && order.size === productSize);
+
+        if (existingOrder) {
+            // If the item exists, increase the quantity
+            existingOrder.quantity += productQuantity;
+        } else {
+            // Otherwise, add the new product to the orders
+            orders.push(orderItem);
+        }
+
+        // Save the updated orders array back to localStorage
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        alert('Product added to cart successfully!');
+        window.location.href = 'orders.html';  // Redirect to the orders page
+    }
+</script>   
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

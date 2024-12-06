@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="css/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
+            <h2 class="text-center py-3">AIMS</h2>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="index.html" class="nav-link text-light">Dashboard</a></li>
+                <li class="nav-item"><a href="products.html" class="nav-link text-light">Products</a></li>
+                <li class="nav-item"><a href="inventory.html" class="nav-link text-light active">Inventory</a></li>
+                <li class="nav-item"><a href="orders.html" class="nav-link text-light">Orders</a></li>
+                <li class="nav-item"><a href="history.html" class="nav-link text-light">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-light">User Manager</a></li>
+            </ul>
+            <button class="btn btn-warning w-100 mt-3">Logout</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto px-md-4">
+            <header class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                <div>
+                    <h5 class="mb-0">Good Morning, John!</h5>
+                    <small>Thursday 07 November 2024</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="user-icon">👤</span>
+                    <span class="username mx-2">John Doe</span>
+                    <small>Admin</small>
+                </div>
+            </header>
+
+        <!-- Main Content -->
+            <header class="d-flex justify-content-between align-items-center py-3">
+                <h2>Products</h2>
+            </header>
+
+            <!-- Filter Buttons -->
+            <section class="my-4">
+                <h3>Categories</h3>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-outline-dark">All</button>
+                    <button class="btn btn-outline-dark">Clothing</button>
+                    <button class="btn btn-outline-dark">Accessories</button>
+                    <button class="btn btn-outline-dark">Shoes</button>
+                    <button class="btn btn-outline-dark">Hats</button>
+                </div>
+            </section>
+
+            <!-- Product Grid -->
+            <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Replace the below example data with dynamic data using JavaScript or server-side rendering -->
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Example Product">
+                        <div class="card-body">
+                            <h5 class="card-title">Example Product Name</h5>
+                            <p class="card-text">£20.00</p>
+                            <a class="btn btn-outline-dark" href="details.html">Details</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat for each product -->
+            </section>
+        </main>
+    </div>
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
