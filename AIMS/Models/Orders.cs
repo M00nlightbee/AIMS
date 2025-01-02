@@ -16,45 +16,12 @@ namespace AIMS.Models
     //    public Product? Product { get; set; }
     //}
 
-    //public class Orders
-    //{
-    //    public int OrderId { get; set; }
-    //    public int OrderQuantity { get; set; }
-    //    public decimal ItemTotalPrice { get; set; }
-    //    public string CreatedAt { get; set; }
-    //    public int ProductId { get; set; }
-    //    public virtual Product Product { get; set; }
-    //}
-
-    //public class Orders
-    //{
-    //    public int OrderId { get; set; }
-    //    public DateTime CreatedAt { get; set; }
-    //    public int ProductId { get; set; }
-
-    //    public virtual Product Product { get; set; }
-    //}
-
     public class Orders
     {
         public int OrderId { get; set; }
-        public DateTime CreatedAt { get; set; }
+		public int OrderQuantity { get; set; }
+		public decimal ItemTotalPrice { get; set; }
+		public DateTime CreatedAt { get; set; }
         public int ProductId { get; set; }
     }
-
-    //public class Orders
-    //{
-    //    public int OrderId { get; set; }
-    //    public DateTime CreatedAt { get; set; }
-    //    public ICollection<Product> Product { get; set; }
-    //}
-
-    //public class Orders
-    //{
-    //    public int OrderId { get; set; }
-    //    public DateTime CreatedAt { get; set; }
-    //    public int ProductId { get; set; }
-
-    //    public Product Product { get; set; }
-    //}
 }
