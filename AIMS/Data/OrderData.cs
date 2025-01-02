@@ -16,28 +16,16 @@ namespace AIMS.Data
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                string sql = "SELECT Orders.OrderId, Orders.OrderQuantity, Orders.ItemTotalPrice, Product.ProductId, Product.ProductName, Product.ProductSize, Product.Price FROM Product INNER JOIN Orders ON Product.ProductId = Orders.ProductId";
+                string sql = "SELECT Orders.OrderId, Orders.OrderQuantity, Product.ProductId, Product.ProductName, Product.ProductSize, Product.Price FROM Product INNER JOIN Orders ON Product.ProductId = Orders.ProductId";
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
                     while (dataReader.Read())
                     {
-                        //OrderDetails orderDetail = new OrderDetails();
-                        //orderDetail.OrderId = Convert.ToInt32(dataReader["OrderId"]);
-                        //orderDetail.OrderQuantity = Convert.ToInt32(dataReader["OrderQuantity"]);
-                        //orderDetail.ItemTotalPrice = Convert.ToDecimal(dataReader["ItemTotalPrice"]);
-                        //orderDetail.ProductId = Convert.ToInt32(dataReader["ProductId"]);
-                        //orderDetail.ProductName = Convert.ToString(dataReader["ProductName"]);
-                        //orderDetail.ProductSize = Convert.ToString(dataReader["ProductSize"]);
-                        //orderDetail.Price = Convert.ToDecimal(dataReader["Price"]);
-
-                        //orderDetailList.Add(orderDetail);
-
-                        OrderDetails orderDetail = new OrderDetails();
+						OrderDetails orderDetail = new OrderDetails();
 						orderDetail.OrderId = Convert.ToInt32(dataReader["OrderId"]);
-						orderDetail.OrderQuantity = dataReader["OrderQuantity"] != DBNull.Value ? Convert.ToInt32(dataReader["OrderQuantity"]) : 1;
-						orderDetail.ItemTotalPrice = dataReader["ItemTotalPrice"] != DBNull.Value ? Convert.ToDecimal(dataReader["ItemTotalPrice"]) : 0;
+						orderDetail.OrderQuantity = Convert.ToInt32(dataReader["OrderQuantity"]);
 						orderDetail.ProductId = Convert.ToInt32(dataReader["ProductId"]);
 						orderDetail.ProductName = Convert.ToString(dataReader["ProductName"]);
 						orderDetail.ProductSize = Convert.ToString(dataReader["ProductSize"]);
@@ -55,9 +43,10 @@ namespace AIMS.Data
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string sql = "INSERT INTO Orders (ProductId) VALUES (@ProductId)";
+                string sql = "INSERT INTO Orders (ProductId, OrderQuantity) VALUES (@ProductId, @OrderQuantity)";
                 SqlCommand command = new SqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@ProductId", orders.ProductId);
+				command.Parameters.AddWithValue("@OrderQuantity", 1);
 
 				connection.Open();
                 command.ExecuteNonQuery();
@@ -95,43 +84,13 @@ namespace AIMS.Data
         }
 
 		//Get single product using ID from DB
-		//public Orders GetOrderById(int orderId)
-		//{
-		//    Orders order = null;
-
-		//    using (SqlConnection connection = new SqlConnection(_connectionString))
-		//    {
-		//        string sql = "SELECT * FROM Orders WHERE OrderId=@OrderId";
-		//        SqlCommand command = new SqlCommand(sql, connection);
-		//        command.Parameters.AddWithValue("@OrderId", orderId);
-
-		//        connection.Open();
-
-		//        using (SqlDataReader dataReader = command.ExecuteReader())
-		//        {
-		//            if (dataReader.Read())
-		//            {
-		//                order = new Orders
-		//                {
-		//                    OrderId = (int)dataReader["OrderId"],
-		//                    OrderQuantity = (int)dataReader["OrderQuantity"],
-		//                    ItemTotalPrice = (decimal)dataReader["ItemTotalPrice"],
-		//                    CreatedAt = (DateTime)dataReader["CreatedAt"],
-		//                    ProductId = (int)dataReader["ProductId"]
-		//                };
-		//            }
-		//        }
-		//    }
-		//    return order;
-		//}
-
 		public Orders GetOrderById(int orderId)
 		{
 			Orders order = null;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
-				string sql = "SELECT OrderQuantity FROM Orders WHERE OrderId=@OrderId";
+				string sql = "SELECT * FROM Orders WHERE OrderId=@OrderId";
 				SqlCommand command = new SqlCommand(sql, connection);
 				command.Parameters.AddWithValue("@OrderId", orderId);
 
@@ -143,12 +102,41 @@ namespace AIMS.Data
 					{
 						order = new Orders
 						{
-							OrderQuantity = dataReader["OrderQuantity"] != DBNull.Value ? (int)dataReader["OrderQuantity"] : 1,
+							OrderId = (int)dataReader["OrderId"],
+							OrderQuantity = (int)dataReader["OrderQuantity"],
+							CreatedAt = (DateTime)dataReader["CreatedAt"],
+							ProductId = (int)dataReader["ProductId"]
 						};
 					}
 				}
 			}
 			return order;
 		}
+
+		//public Orders GetOrderById(int orderId)
+		//{
+		//	Orders order = null;
+
+		//	using (SqlConnection connection = new SqlConnection(_connectionString))
+		//	{
+		//		string sql = "SELECT OrderQuantity FROM Orders WHERE OrderId=@OrderId";
+		//		SqlCommand command = new SqlCommand(sql, connection);
+		//		command.Parameters.AddWithValue("@OrderId", orderId);
+
+		//		connection.Open();
+
+		//		using (SqlDataReader dataReader = command.ExecuteReader())
+		//		{
+		//			if (dataReader.Read())
+		//			{
+		//				order = new Orders
+		//				{
+		//					OrderQuantity = dataReader["OrderQuantity"] != DBNull.Value ? (int)dataReader["OrderQuantity"] : 1,
+		//				};
+		//			}
+		//		}
+		//	}
+		//	return order;
+		//}
 	}
 }
