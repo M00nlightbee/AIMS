@@ -8,6 +8,8 @@ builder.Services.AddControllersWithViews();
 // Register DataAccess with dependency Injection
 builder.Services.AddSingleton<ProductData>();
 builder.Services.AddSingleton<UserData>();
+builder.Services.AddSingleton<OrderData>();
+
 
 var app = builder.Build();
 

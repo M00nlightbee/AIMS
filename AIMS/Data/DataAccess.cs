@@ -6,7 +6,6 @@ namespace AIMS.Data
     public class DataAccess
     {
         protected readonly string _connectionString;
-
         public DataAccess(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection")
