@@ -45,9 +45,27 @@ namespace AIMS.Controllers
             return View();
         }
 
-        //Delete Item in Order
-        //get view
-        public IActionResult Delete()
+        //Update Quantity of Item in Order
+        public IActionResult UpdateQuantity(int id)
+        {
+            var products = _dataAccess.GetOrderById(id);
+            return View(products);
+        }
+
+        [HttpPost]
+		public IActionResult UpdateQuantity(Orders order, int id)
+		{
+			if (ModelState.IsValid)
+			{
+				_dataAccess.UpdateOrder(order, id);
+				return RedirectToAction("Index");
+			}
+			return View(order);
+		}
+
+		//Delete Item in Order
+		//get view
+		public IActionResult Delete()
         {
             return View();
         }
