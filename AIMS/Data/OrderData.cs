@@ -58,7 +58,6 @@ namespace AIMS.Data
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-				//string sql = "UPDATE Orders SET OrderQuantity = @OrderQuantity, ItemTotalPrice = @ItemTotalPrice WHERE OrderId = @OrderId";
 				string sql = "UPDATE Orders SET OrderQuantity = @OrderQuantity WHERE OrderId = @OrderId";
 				SqlCommand command = new SqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@OrderId", id);
@@ -113,30 +112,17 @@ namespace AIMS.Data
 			return order;
 		}
 
-		//public Orders GetOrderById(int orderId)
-		//{
-		//	Orders order = null;
-
-		//	using (SqlConnection connection = new SqlConnection(_connectionString))
-		//	{
-		//		string sql = "SELECT OrderQuantity FROM Orders WHERE OrderId=@OrderId";
-		//		SqlCommand command = new SqlCommand(sql, connection);
-		//		command.Parameters.AddWithValue("@OrderId", orderId);
-
-		//		connection.Open();
-
-		//		using (SqlDataReader dataReader = command.ExecuteReader())
-		//		{
-		//			if (dataReader.Read())
-		//			{
-		//				order = new Orders
-		//				{
-		//					OrderQuantity = dataReader["OrderQuantity"] != DBNull.Value ? (int)dataReader["OrderQuantity"] : 1,
-		//				};
-		//			}
-		//		}
-		//	}
-		//	return order;
-		//}
+		//update inventory quantity
+		public void UpdateInventoryQuantity()
+		{
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = "UPDATE Product SET Product.Quantity = (Product.Quantity - Orders.OrderQuantity) FROM Product INNER JOIN Orders ON Product.ProductId = Orders.ProductId WHERE Product.ProductId = Orders.ProductId";
+				SqlCommand command = new SqlCommand(sql, connection);
+	
+				connection.Open();
+				command.ExecuteNonQuery();
+			}
+		}
 	}
 }
