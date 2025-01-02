@@ -70,7 +70,7 @@ namespace AIMS.Controllers
             return View();
         }
 
-        // get by id and delete from db, post changes to db
+        //get by id and delete from db, post changes to db
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -78,5 +78,12 @@ namespace AIMS.Controllers
             ViewBag.Message = "Item Successfully Removed";
             return RedirectToAction("Index");
         }
-    }
+
+		//Update Inventory Quantity
+		public IActionResult UpdateInventory()
+		{
+			_dataAccess.UpdateInventoryQuantity();
+			return RedirectToAction("Index", "Inventory");
+		}
+	}
 }
