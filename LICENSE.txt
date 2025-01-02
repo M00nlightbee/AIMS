@@ -1,4 +1,3 @@
-
 AIMS Inventory Management System
 Version 1.0
 
@@ -37,7 +36,16 @@ Bootstrap
 - Bootstrap v5.1.0, released under the MIT license. Copyright 2011-2021 The Bootstrap Authors.
 For more details, visit: https://getbootstrap.com/
 
-Images
-- All images used are free-to-use under the CC0 license and are sourced from Unsplash.com.
+SQLite
+- SQLite Database is licensed under the Public Domain.
+For more details, visit: https://www.sqlite.org/publicdomain.html
 
-For more information, please contact the AIMS Team at support@aims.com.
+MySQL
+- MySQL Community Edition, licensed under the GNU General Public License (GPL), version 2.
+For more details, visit: https://www.mysql.com/about/legal/
+
+Images
+- All images used are free to use under the CC0 license and are sourced from Unsplash.com.
+
+For more information, don't hesitate to get in touch with the AIMS Team at support@aims.com.
+
