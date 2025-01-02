@@ -40,7 +40,7 @@
                             <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
                             <td>
                                 <input asp-for="@p.OrderQuantity" type="number" id="quantity" name="quantity" min="1" readonly />
-                                <a class="btn btn-sm btn-outline-secondary" asp-action="UpdateQuantity" asp-route-id="@p.OrderId">Update</a>
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="UpdateQuantity" asp-route-id="@p.OrderId">Change</a>
                             </td>
                             <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price * p.OrderQuantity)</td>
                             <td>
@@ -51,6 +51,7 @@
                 }
             </tbody>
         </table>
+        <a class="btn btn-sm btn-outline-dark" asp-action="UpdateInventory">Complete Order</a>
     </section>
 </div>
 
