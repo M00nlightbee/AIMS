@@ -6,7 +6,8 @@ namespace AIMS.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserData _dataAccess;
+		//Access datamodel to handel CRUD operations on user table in DB
+		private readonly UserData _dataAccess;
         public UserController(UserData dataAccess)
         {
             _dataAccess = dataAccess;
@@ -36,7 +37,7 @@ namespace AIMS.Controllers
             return View(user);
         }
 
-        //Update Product
+        //Update User details
         public IActionResult Edit(int id)
         {
             var users = _dataAccess.GetUserById(id);
@@ -48,13 +49,20 @@ namespace AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataAccess.UpdateUser(user, id);
+				//validate updated date before updating the product
+				var existingUser = _dataAccess.GetUserById(id);
+				if (existingUser != null && existingUser.CreatedDate == user.UpdatedDate)
+				{
+					ModelState.AddModelError("UpdatedDate", "Updated date cannot be the same as the created date.");
+					return View(user);
+				}
+				_dataAccess.UpdateUser(user, id);
                 return RedirectToAction("Index");
             }
             return View(user);
         }
 
-        //Delete Product
+        //Delete User
         public IActionResult Delete()
         {
             return View();
