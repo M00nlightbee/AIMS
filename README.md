@@ -1,6 +1,6 @@
 # AIMS: Inventory Management System
 
-## Overview
+## About this project
 AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventory management and user administration. It provides a streamlined interface for branch managers, administrators, and sales assistants to manage products, track inventory, and gain insights through analytics.
 
 ---
