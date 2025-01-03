@@ -8,8 +8,8 @@ namespace AIMS.Data
     {
         public OrderData(IConfiguration configuration) : base(configuration){ }
 
-        //Create new order and insert into DB
-        public List<OrderDetails> GetProductDetail()
+		//Join Orders and Product tables to get product details
+		public List<OrderDetails> GetProductDetail()
         {
             List<OrderDetails> orderDetailList = new List<OrderDetails>();
 
@@ -39,20 +39,6 @@ namespace AIMS.Data
         }
 
 		//Create new order and insert into DB
-		//    public void AddItemToOrder(Orders orders)
-		//    {
-		//        using (SqlConnection connection = new SqlConnection(_connectionString))
-		//        {
-		//            string sql = "INSERT INTO Orders (ProductId, OrderQuantity) VALUES (@ProductId, @OrderQuantity)";
-		//            SqlCommand command = new SqlCommand(sql, connection);
-		//            command.Parameters.AddWithValue("@ProductId", orders.ProductId);
-		//command.Parameters.AddWithValue("@OrderQuantity", 1);
-
-		//connection.Open();
-		//            command.ExecuteNonQuery();
-		//        }
-		//    }
-
 		public void AddItemToOrder(Orders orders)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -145,6 +131,39 @@ namespace AIMS.Data
 	
 				connection.Open();
 				command.ExecuteNonQuery();
+			}
+		}
+
+		//Archive orders
+		public void ArchivedOrderDetails()
+		{
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				connection.Open();
+
+				// Generate a 4-digit number
+				Random random = new Random();
+				int orderNumber = random.Next(1000, 10000);
+
+				// Copy data to ArchivedOrderDetails
+				string copyQuery = @"
+                    INSERT INTO ArchivedOrderDetails (OrderId , OrderQuantity, ProductId, OrderNumber)
+                    SELECT OrderId, OrderQuantity, ProductId, @OrderNumber
+                    FROM Orders";
+
+				using (SqlCommand copyCommand = new SqlCommand(copyQuery, connection))
+				{
+					copyCommand.Parameters.AddWithValue("@OrderNumber", orderNumber);
+					copyCommand.ExecuteNonQuery();
+				}
+
+				// Delete data from Orders and not the table itself
+				string deleteQuery = "TRUNCATE TABLE Orders";
+
+				using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+				{
+					deleteCommand.ExecuteNonQuery();
+				}
 			}
 		}
 	}
