@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ProductData>();
 builder.Services.AddSingleton<UserData>();
 builder.Services.AddSingleton<OrderData>();
+builder.Services.AddSingleton<HistoryData>();
 
 
 var app = builder.Build();
