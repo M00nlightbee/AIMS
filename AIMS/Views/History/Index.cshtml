@@ -1,0 +1,51 @@
+﻿<!-- History Index View -->
+
+@model IEnumerable<AIMS.Models.OrderDetails>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+    <h2>History</h2>
+    <!-- History Table -->
+    <section class="inventory-table mt-4">
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order#</th>
+                    <th>Order completion date</th>
+                    <th>Item Name</th>
+                    <th>Size</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+                @if (Model == null)
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No Model Data</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.OrderNumber</td>
+                            <td>@string.Format("{0:dddd, dd MMMM yyyy}", p.CreatedAt)</td>
+                            <td>@p.ProductName</td>
+                            <td>@p.ProductSize</td>
+                            <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
+                            <td>@p.OrderQuantity</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </section> 
+</div>
+
+
+
