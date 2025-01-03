@@ -38,20 +38,43 @@ namespace AIMS.Data
             return orderDetailList;
         }
 
-        //Create new order and insert into DB
-        public void AddItemToOrder(Orders orders)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                string sql = "INSERT INTO Orders (ProductId, OrderQuantity) VALUES (@ProductId, @OrderQuantity)";
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@ProductId", orders.ProductId);
+		//Create new order and insert into DB
+		//    public void AddItemToOrder(Orders orders)
+		//    {
+		//        using (SqlConnection connection = new SqlConnection(_connectionString))
+		//        {
+		//            string sql = "INSERT INTO Orders (ProductId, OrderQuantity) VALUES (@ProductId, @OrderQuantity)";
+		//            SqlCommand command = new SqlCommand(sql, connection);
+		//            command.Parameters.AddWithValue("@ProductId", orders.ProductId);
+		//command.Parameters.AddWithValue("@OrderQuantity", 1);
+
+		//connection.Open();
+		//            command.ExecuteNonQuery();
+		//        }
+		//    }
+
+		public void AddItemToOrder(Orders orders)
+		{
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = @"
+						IF NOT EXISTS 
+							(SELECT * FROM Orders WHERE ProductId=@ProductId) 
+							BEGIN INSERT INTO Orders (ProductId, OrderQuantity) 
+							VALUES(@ProductId, @OrderQuantity) 
+							END 
+						ELSE 
+							BEGIN UPDATE Orders SET OrderQuantity=OrderQuantity + 1 
+							WHERE ProductId=@ProductId 
+							END ";
+				SqlCommand command = new SqlCommand(sql, connection);
+				command.Parameters.AddWithValue("@ProductId", orders.ProductId);
 				command.Parameters.AddWithValue("@OrderQuantity", 1);
 
 				connection.Open();
-                command.ExecuteNonQuery();
-            }
-        }
+				command.ExecuteNonQuery();
+			}
+		}
 
 		//Update item qauntity in DB
 		public void UpdateOrder(Orders order, int id)
