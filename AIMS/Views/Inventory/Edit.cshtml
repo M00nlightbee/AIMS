@@ -1,4 +1,6 @@
-﻿@model Product
+﻿<!-- Inventory Edit View -->
+
+@model Product
 
 @{
 	ViewData["Title"] = "Update Product";
@@ -58,6 +60,7 @@
 		<div class="form-group">
 			<label asp-for="UpdatedDate">Updated Date</label>
 			<input class="form-control" asp-for="UpdatedDate" type="date" />
+			<span asp-validation-for="UpdatedDate" class="text-danger"></span>
 		</div>
 		<div class="text-center panel-body">
 			<a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
