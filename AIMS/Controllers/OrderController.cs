@@ -83,6 +83,7 @@ namespace AIMS.Controllers
 		public IActionResult UpdateInventory()
 		{
 			_dataAccess.UpdateInventoryQuantity();
+            _dataAccess.ArchivedOrderDetails();
 			return RedirectToAction("Index", "Inventory");
 		}
 	}
