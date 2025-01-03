@@ -38,7 +38,11 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 - **Dependency Injection:** Built-in ASP.NET Core DI
 - **Environment:** Visual Studio 2022 / .NET 6+
 - **Version Control:** Git
-
+* ![ASP.NET Core](https://img.shields.io/badge/-ASP.NET%20Core-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+* ![C#](https://img.shields.io/badge/-C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+* ![SQL Server](https://img.shields.io/badge/-SQL%20Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white)
+* ![Bootstrap](https://img.shields.io/badge/-Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+* ![Chart.js](https://img.shields.io/badge/-Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)
 ---
 
 ## Project Structure
