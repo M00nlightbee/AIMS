@@ -1,4 +1,6 @@
-﻿@model Users
+﻿<!-- User Edit View -->
+
+@model Users
 
 @{
 	ViewData["Title"] = "Update Users Detail";
@@ -44,6 +46,7 @@
 		<div class="form-group">
 			<label asp-for="UpdatedDate">Updated Date</label>
 			<input class="form-control" asp-for="UpdatedDate" type="date" />
+			<span asp-validation-for="UpdatedDate" class="text-danger"></span>
 		</div>
 		<div class="text-center panel-body">
 			<a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
