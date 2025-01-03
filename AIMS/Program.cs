@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Register DataAccess and UserData with dependency injection
 builder.Services.AddSingleton<ProductData>();
 builder.Services.AddSingleton<UserData>();
+builder.Services.AddSingleton<OrderData>();
+
 
 // Add session services
 builder.Services.AddDistributedMemoryCache();

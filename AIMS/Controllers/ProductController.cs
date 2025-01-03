@@ -1,4 +1,5 @@
 ﻿using AIMS.Data;
+using AIMS.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIMS.Controllers
@@ -11,7 +12,7 @@ namespace AIMS.Controllers
             _dataAccess = dataAccess;
         }
 
-        //Display page index
+        //Display all product cards
         public IActionResult Index()
         {
             var products = _dataAccess.GetProducts();
@@ -19,10 +20,11 @@ namespace AIMS.Controllers
         }
 
         //Get specific prodcut using ID: product/details/1
-        public IActionResult Details(int id)
-        {
-            var products = _dataAccess.GetProductById(id);
-            return View(products);
-        }
+        //public IActionResult Details(int id)
+        //{
+        //    var products = _dataAccess.GetProductById(id);
+        //    return View(products);
+        //}
+
     }
 }

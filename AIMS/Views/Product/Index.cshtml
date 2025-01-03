@@ -37,10 +37,12 @@
                         <div class="card h-100 text-center">
                             <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
                             <div class="card-body">
-                                @* <p>@p.ProductId</p> *@
+
                                 <h5 class="card-title">@p.ProductName</h5>
                                 <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
-                                <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@p.ProductId">Details</a>
+                                @* <a class="btn btn-outline-dark" asp-action="Details" asp-controller="Product" asp-route-id="@p.ProductId">Details</a> *@
+                                @* <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@p.ProductId">Details</a> *@
+                                <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
                             </div>
                         </div>
                     </div>

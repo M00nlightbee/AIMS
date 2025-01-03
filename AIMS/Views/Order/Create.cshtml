@@ -1,0 +1,50 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+    @if (Model == null)
+    {
+        <p colspan="5" class="text-center">No Model Data</p>
+    }
+    else
+    {
+        <div class="item active">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="">
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12" id="tbodyid">
+            <h2>@Model.ProductName</h2>
+            <hr />
+            <h3 class="price-container">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", Model.Price)<small> *includes tax</small></h3>
+            <hr />
+        </div>
+
+        <div>
+            <p><strong>Size:</strong> <Span>@Model.ProductSize</Span></p>
+            <hr />
+            <strong>Description</strong>
+            <p>@Model.ProductDescription</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <hr />
+                <!-- Post productid to orders table -->
+                <form method="post" asp-action="AddItem" asp-controller="Order">
+                    <div class="form-group">
+                        <label asp-for="ProductId">Product code:</label>
+                        <input class="form-control" asp-for="ProductId" readonly />
+                    </div>
+                    <div class="text-center panel-body">
+                        <button class="btn btn-success btn-lg" type="submit">Add to cart</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+
