@@ -89,6 +89,13 @@ main {
     overflow-x: hidden;
     max-height: 65vh;
 }
+#all-inventory-table-flex, #order-table-flex, #user-table-flex{
+    display: flex;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 75vh;
+    flex-direction: column;
+}
 
 /* Filter Button Styles */
 .btn-outline-dark {
