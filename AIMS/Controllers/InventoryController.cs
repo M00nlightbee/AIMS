@@ -31,15 +31,17 @@ namespace AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataAccess.CreateProduct(product);
+				_dataAccess.CreateProduct(product);
                 return RedirectToAction("Index");
             }
             return View(product);
 		}
 
-        //Update Product
-        public IActionResult Edit(int id)
+		//Update Product
+		//Get request to edit product
+		public IActionResult Edit(int id)
         {
+			//Get product by id
 			var products = _dataAccess.GetProductById(id);
             return View(products);
 		}
@@ -49,7 +51,14 @@ namespace AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataAccess.UpdateProduct(product, id);
+				//validate updated date before updating the product
+				var existingProduct = _dataAccess.GetProductById(id);
+				if (existingProduct != null && existingProduct.CreatedDate == product.UpdatedDate)
+				{
+					ModelState.AddModelError("UpdatedDate", "Updated date cannot be the same as the created date.");
+                    return View(product);
+				}
+				_dataAccess.UpdateProduct(product, id);
                 return RedirectToAction("Index");
             }
             return View(product);
