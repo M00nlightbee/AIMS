@@ -1,0 +1,26 @@
+Make sure the following NuGet packages are installed in your project:
+
+Microsoft.EntityFrameworkCore.SqlServer
+Used for database connections with SQL Server.
+
+bash
+Copy code
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Used for migrations and database management.
+
+bash
+Copy code
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Microsoft.AspNetCore.Identity.EntityFrameworkCore
+Provides Identity support for user management.
+
+bash
+Copy code
+Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+Rotativa.AspNetCore (Optional if PDF generation is planned later)
+For generating PDF documents from Razor views.
+
+bash
+Copy code
+Install-Package Rotativa.AspNetCore
