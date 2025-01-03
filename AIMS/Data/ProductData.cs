@@ -1,6 +1,4 @@
-﻿
-//Dependency
-using System.Data;
+﻿using System.Data;
 using AIMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
