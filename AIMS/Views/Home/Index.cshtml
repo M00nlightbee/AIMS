@@ -1,8 +1,186 @@
-﻿@{
+﻿@model Product
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - AIMS</title>
+    <link rel="stylesheet" href="css/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .chart-container {
+            max-width: auto;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
+            <h2 class="text-center py-3">AIMS</h2>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="index.html" class="nav-link text-light">Dashboard</a></li>
+                <li class="nav-item"><a href="products.html" class="nav-link text-light">Products</a></li>
+                <li class="nav-item"><a href="inventory.html" class="nav-link text-light">Inventory</a></li>
+                <li class="nav-item"><a href="orders.html" class="nav-link text-light">Orders</a></li>
+                <li class="nav-item"><a href="history.html" class="nav-link text-light">History</a></li>
+                <li class="nav-item"><a href="analytics.html" class="nav-link text-light active">Analytics</a></li>
+            </ul>
+            <button class="btn btn-warning w-100 mt-3">Logout</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto px-md-4">
+            <header class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                <h1>Analytics</h1>
+            </header>
+
+            <!-- Analytics Section -->
+            <section class="mt-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Stock</h5>
+                                <p id="totalStock" class="card-text display-5">@Model.Quantity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Stock Per Item</h5>
+                                <p id="averageStock" class="card-text display-5">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Categories</h5>
+                                <p id="totalCategories" class="card-text display-5">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container mt-5">
+                    <h3>Stock Distribution by Branch</h3>
+                    <canvas id="branchChart"></canvas>
+                </div>
+
+                <div class="chart-container mt-5">
+                    <h3>Stock Distribution by Category</h3>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const inventoryData = [
+        { itemName: "Shirt", category: "Clothing", branch: "Sheffield", stock: 100 },
+        { itemName: "Jacket", category: "Clothing", branch: "London", stock: 50 },
+        { itemName: "Hat", category: "Hats", branch: "Derby", stock: 30 },
+        { itemName: "Gloves", category: "Accessories", branch: "Sheffield", stock: 70 },
+        { itemName: "Shoes", category: "Shoes", branch: "London", stock: 60 },
+        { itemName: "Scarf", category: "Accessories", branch: "Derby", stock: 40 },
+    ];
+
+    function calculateAnalytics() {
+        const totalStock = inventoryData.reduce((sum, item) => sum + item.stock, 0);
+        const averageStock = totalStock / inventoryData.length;
+        const categories = [...new Set(inventoryData.map(item => item.category))];
+
+        document.getElementById("totalStock").textContent = totalStock;
+        document.getElementById("averageStock").textContent = averageStock.toFixed(2);
+        document.getElementById("totalCategories").textContent = categories.length;
+    }
+
+    function generateBranchChart() {
+        const branchStock = inventoryData.reduce((acc, item) => {
+            acc[item.branch] = (acc[item.branch] || 0) + item.stock;
+            return acc;
+        }, {});
+
+        const ctx = document.getElementById("branchChart").getContext("2d");
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: Object.keys(branchStock),
+                datasets: [{
+                    label: "Stock by Branch",
+                    data: Object.values(branchStock),
+                    backgroundColor: "rgba(75, 192, 192, 0.5)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function generateCategoryChart() {
+        const categoryStock = inventoryData.reduce((acc, item) => {
+            acc[item.category] = (acc[item.category] || 0) + item.stock;
+            return acc;
+        }, {});
+
+        const ctx = document.getElementById("categoryChart").getContext("2d");
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: Object.keys(categoryStock),
+                datasets: [{
+                    label: "Stock by Category",
+                    data: Object.values(categoryStock),
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 0.5)",
+                        "rgba(54, 162, 235, 0.5)",
+                        "rgba(255, 206, 86, 0.5)",
+                        "rgba(75, 192, 192, 0.5)",
+                        "rgba(153, 102, 255, 0.5)"
+                    ],
+                    borderColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)",
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(153, 102, 255, 1)"
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        calculateAnalytics();
+        generateBranchChart();
+        generateCategoryChart();
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

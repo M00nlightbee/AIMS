@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
+using AIMS.Data;
 using AIMS.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,19 +8,17 @@ namespace AIMS.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-
+        private readonly ProductData _dataAccess;
+        public HomeController(ProductData dataAccess)
+        {
+            _dataAccess = dataAccess;
+        }
 
         public IActionResult Index()
         {
-   
-            return View();
+            var productTotal = _dataAccess.TotalProduct;
+            //var product = _dataAccess.GetProducts;
+            return View(productTotal);
         }
 
         public IActionResult Privacy()
