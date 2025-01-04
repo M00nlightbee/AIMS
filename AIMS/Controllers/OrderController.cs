@@ -25,34 +25,50 @@ namespace AIMS.Controllers
             return View(orderDetails);
         }
 
-        //get item by id
-        public IActionResult Create(int id)
+		//Out of stock items
+		public IActionResult OutOfStock()
+		{
+			return View();
+		}
+
+		//get item by id
+		public IActionResult Create(int id)
         {
             var products = _dataAccessProduct.GetProductById(id);
             return View(products);
         }
 
-        //post data to db
-        [HttpPost]
-        public IActionResult AddItem(Orders orders)
-        {
-            if (ModelState.IsValid)
-            {
-                _dataAccess.AddItemToOrder(orders);
-                ViewBag.Message = "Item Successfully Added";
-                return RedirectToAction("Index");
-            }           
-            return View();
-        }
+		//post data to db
+		//Add Item to Order if it does not exist, else update quantity
+		[HttpPost]
+		public IActionResult AddItem(Orders orders)
+		{
+			if (ModelState.IsValid)
+			{
+				// Check inventory quantity before adding item to order
+				var product = _dataAccessProduct.GetProductById(orders.ProductId);
+				if (product != null && product.Quantity > 0)
+				{
+					_dataAccess.AddItemToOrder(orders);
+					//ViewBag.Message = "Item Successfully Added";
+					return RedirectToAction("Index");
+				}
+				else
+				{
+					return RedirectToAction("OutOfStock");
+				}
+			}
+			return View(orders);
+		}
 
-        //Update Quantity of Item in Order
-        public IActionResult UpdateQuantity(int id)
+		//Update Quantity of Item in Order
+		public IActionResult UpdateQuantity(int id)
         {
             var products = _dataAccess.GetOrderById(id);
             return View(products);
         }
 
-        [HttpPost]
+		[HttpPost]
 		public IActionResult UpdateQuantity(Orders order, int id)
 		{
 			if (ModelState.IsValid)
@@ -75,16 +91,40 @@ namespace AIMS.Controllers
         public IActionResult Delete(int id)
         {
             _dataAccess.RemoveItemFromOrder(id);
-            ViewBag.Message = "Item Successfully Removed";
+            //ViewBag.Message = "Item Successfully Removed";
             return RedirectToAction("Index");
         }
 
 		//Update Inventory Quantity
 		public IActionResult UpdateInventory()
 		{
-			_dataAccess.UpdateInventoryQuantity();
-            _dataAccess.ArchivedOrderDetails();
-			return RedirectToAction("Index", "Inventory");
+			var orderDetails = _dataAccess.GetProductDetail();
+			bool canUpdateInventory = true;
+
+			// Check if there is enough stock for each item before updating inventory
+			foreach (var order in orderDetails)
+			{
+				var product = _dataAccessProduct.GetProductById(order.ProductId);
+				if (product != null && product.Quantity < order.OrderQuantity)
+				{
+					canUpdateInventory = false;
+					break;
+				}
+			}
+			// Update inventory if there is enough stock
+			if (canUpdateInventory)
+			{
+				_dataAccess.UpdateInventoryQuantity();
+				_dataAccess.ArchivedOrderDetails();
+				return RedirectToAction("Index", "Inventory");
+			}
+			// Redirect to index if there is not enough stock
+			else
+			{
+				//ViewBag.Message = "Cannot update inventory. Some items have insufficient stock.";
+				return RedirectToAction("Index");
+			}
 		}
+
 	}
 }
