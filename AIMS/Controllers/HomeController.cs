@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
+using AIMS.Data;
 using AIMS.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +8,24 @@ namespace AIMS.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-   
-            return View();
-        }
+        private readonly ProductData _dataAccess;
+		public HomeController(ProductData dataAccess)
+		{
+			_dataAccess = dataAccess;
+		}
 
-        public IActionResult Privacy()
+		public IActionResult Index()
+		{
+			var analytics = new Analytics
+			{
+				TotalQuantity = _dataAccess.GetTotalQuantity().TotalQuantity,
+				StockByBranch = _dataAccess.GetStockByBranch(),
+				StockByCategory = _dataAccess.GetStockByCategory()
+			};
+
+			return View(analytics);
+		}
+		public IActionResult Privacy()
         {
             return View();
         }
