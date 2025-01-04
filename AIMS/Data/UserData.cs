@@ -47,25 +47,19 @@ namespace AIMS.Data
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string sql = @"
-            INSERT INTO Users (FirstName, LastName, Branch, Role, Email, UserPassword, CreatedDate, UpdatedDate) 
-            VALUES (@FirstName, @LastName, @Branch, @Role, @Email, @UserPassword, @CreatedDate, @UpdatedDate)";
-
+                string sql = "INSERT INTO Users (FirstName, LastName, Branch, Role, Email, UserPassword) VALUES (@FirstName, @LastName, @Branch, @Role, @Email, @UserPassword)";
                 SqlCommand command = new SqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@FirstName", user.FirstName);
                 command.Parameters.AddWithValue("@LastName", user.LastName);
-                command.Parameters.AddWithValue("@Branch", user.Branch ?? (object)DBNull.Value); // Handle null for optional fields
+                command.Parameters.AddWithValue("@Branch", user.Branch);
                 command.Parameters.AddWithValue("@Role", user.Role);
                 command.Parameters.AddWithValue("@Email", user.Email);
                 command.Parameters.AddWithValue("@UserPassword", user.UserPassword);
-                command.Parameters.AddWithValue("@CreatedDate", user.CreatedDate);
-                command.Parameters.AddWithValue("@UpdatedDate", user.UpdatedDate);
 
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
-
 
         //Update user information and update DB
         public void UpdateUser(Users user, int id)
