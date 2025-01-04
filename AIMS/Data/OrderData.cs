@@ -16,7 +16,11 @@ namespace AIMS.Data
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                string sql = "SELECT Orders.OrderId, Orders.OrderQuantity, Product.ProductId, Product.ProductName, Product.ProductSize, Product.Price FROM Product INNER JOIN Orders ON Product.ProductId = Orders.ProductId";
+                string sql = @"SELECT 
+								Orders.OrderId, Orders.OrderQuantity, Product.ProductId, Product.ProductName, Product.ProductSize, Product.Price 
+								FROM Product 
+								INNER JOIN Orders 
+								ON Product.ProductId = Orders.ProductId";
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 using (SqlDataReader dataReader = command.ExecuteReader())
@@ -121,16 +125,24 @@ namespace AIMS.Data
 			return order;
 		}
 
-		//update inventory quantity
+		// Update inventory quantity
 		public void UpdateInventoryQuantity()
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
-				string sql = "UPDATE Product SET Product.Quantity = (Product.Quantity - Orders.OrderQuantity) FROM Product INNER JOIN Orders ON Product.ProductId = Orders.ProductId WHERE Product.ProductId = Orders.ProductId";
-				SqlCommand command = new SqlCommand(sql, connection);
-	
 				connection.Open();
-				command.ExecuteNonQuery();
+
+				string updateInventorySql = @"
+                    UPDATE Product 
+                    SET Product.Quantity = CASE 
+                        WHEN Product.Quantity - Orders.OrderQuantity < 0 THEN 0 
+                        ELSE Product.Quantity - Orders.OrderQuantity 
+                    END 
+                    FROM Product 
+                    INNER JOIN Orders ON Product.ProductId = Orders.ProductId
+					WHERE Product.ProductId = Orders.ProductId";
+				SqlCommand updateInventoryCommand = new SqlCommand(updateInventorySql, connection);
+				updateInventoryCommand.ExecuteNonQuery();
 			}
 		}
 
