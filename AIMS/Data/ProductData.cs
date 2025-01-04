@@ -138,5 +138,69 @@ namespace AIMS.Data
 			}
 			return product;
 		}
-    }
+
+		//Analytics for the Inventory 
+		//Get total quantity of all products from DB
+		public Analytics GetTotalQuantity()
+		{
+			Analytics totalQuantity = new Analytics();
+
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = "SELECT SUM(Quantity) AS TotalQuantity FROM Product";
+				SqlCommand command = new SqlCommand(sql, connection);
+
+				connection.Open();
+				totalQuantity.TotalQuantity = (int)command.ExecuteScalar();
+			}
+
+			return totalQuantity;
+		}
+
+		//Get total quantity of all products by branch from DB
+		public Dictionary<string, int> GetStockByBranch()
+		{
+			var stockByBranch = new Dictionary<string, int>();
+
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = "SELECT Branch, SUM(Quantity) AS TotalQuantity FROM Product GROUP BY Branch";
+				SqlCommand command = new SqlCommand(sql, connection);
+
+				connection.Open();
+				using (SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						stockByBranch.Add(reader["Branch"].ToString(), Convert.ToInt32(reader["TotalQuantity"]));
+					}
+				}
+			}
+
+			return stockByBranch;
+		}
+
+		//Get total quantity of all products by category from DB
+		public Dictionary<string, int> GetStockByCategory()
+		{
+			var stockByCategory = new Dictionary<string, int>();
+
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = "SELECT Category, SUM(Quantity) AS TotalQuantity FROM Product GROUP BY Category";
+				SqlCommand command = new SqlCommand(sql, connection);
+
+				connection.Open();
+				using (SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						stockByCategory.Add(reader["Category"].ToString(), Convert.ToInt32(reader["TotalQuantity"]));
+					}
+				}
+			}
+
+			return stockByCategory;
+		}
+	}
 }
