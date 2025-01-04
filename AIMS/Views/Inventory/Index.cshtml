@@ -64,7 +64,16 @@
                             <td>@p.ProductName</td>
                             <td>@p.Category</td>
                             <td>@p.Branch</td>
-                            <td>@p.Quantity</td>
+                            <td>
+								@if (p.Quantity <= 20)
+								{
+									<span class="text-danger">@p.Quantity</span>
+								}
+								else
+                                {
+                                    @p.Quantity
+								}    
+                            </td>
                             <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
                             <td>@p.ProductSize</td>
                             <td>
@@ -78,7 +87,6 @@
         </table>
     </section>
 
-    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
     <script src="~/js/inventory.js"></script>
 </div>
 
