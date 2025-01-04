@@ -1,10 +1,117 @@
 ﻿<!-- Home Index View -->
+@model Analytics
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@* <p id="totalStock" class="card-text display-5">Total Quantity: @Model.TotalQuantity</p> *@
+
+<div class="col-md-10 ms-sm-auto px-md-4">
+    <section class="mt-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Stock</h5>
+                        <p id="totalStock" class="card-text display-5">@Model.TotalQuantity</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Stock Per Item</h5>
+                        <p id="averageStock" class="card-text display-5">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Categories</h5>
+                        <p id="totalCategories" class="card-text display-5">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container mt-5">
+            <h3>Stock Distribution by Branch</h3>
+            <canvas id="branchChart"></canvas>
+        </div>
+        <div class="chart-container mt-5">
+            <h3>Stock Distribution by Category</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </section>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var branchLabels = @Html.Raw(Json.Serialize(Model.StockByBranch.Keys));
+            var branchData = @Html.Raw(Json.Serialize(Model.StockByBranch.Values));
+
+            var ctxBranch = document.getElementById('branchChart').getContext('2d');
+            var branchChart = new Chart(ctxBranch, {
+                type: 'bar',
+                data: {
+                    labels: branchLabels,
+                    datasets: [{
+                        label: 'Stock by Branch',
+                        data: branchData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var categoryLabels = @Html.Raw(Json.Serialize(Model.StockByCategory.Keys));
+            var categoryData = @Html.Raw(Json.Serialize(Model.StockByCategory.Values));
+
+            var ctxCategory = document.getElementById('categoryChart').getContext('2d');
+            var categoryChart = new Chart(ctxCategory, {
+                type: 'pie',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        label: 'Stock by Category',
+                        data: categoryData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Stock Distribution by Category'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
