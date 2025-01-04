@@ -10,47 +10,49 @@
     <a class="btn btn-sm btn-outline-danger" asp-action="Index" asp-controller="Product">+Add More</a>
     <!-- Order Table -->
     <section class="inventory-table mt-4">
-        <table class="table table-striped align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Item Name</th>
-                    <th>Size</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTableBody">
-                @if (Model == null)
-                {
+        <section id="order-table-flex">
+            <table class="table table-striped align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <td colspan="5" class="text-center">No Model Data</td>
+                        <th>Item Code</th>
+                        <th>Item Name</th>
+                        <th>Size</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Action</th>
                     </tr>
-                }
-                else
-                {
-                    @foreach (var p in Model)
+                </thead>
+                <tbody id="inventoryTableBody">
+                    @if (Model == null)
                     {
                         <tr>
-                            <td>@p.ProductId</td>
-                            <td>@p.ProductName</td>
-                            <td>@p.ProductSize</td>
-                            <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
-                            <td>
-                                <input asp-for="@p.OrderQuantity" type="number" id="quantity" name="quantity" min="1" readonly />
-                                <a class="btn btn-sm btn-outline-secondary" asp-action="UpdateQuantity" asp-route-id="@p.OrderId">Change</a>
-                            </td>
-                            <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price * p.OrderQuantity)</td>
-                            <td>
-                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@p.OrderId">🗑 Remove</a>
-                            </td>
+                            <td colspan="5" class="text-center">No Model Data</td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
+                    else
+                    {
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.ProductId</td>
+                                <td>@p.ProductName</td>
+                                <td>@p.ProductSize</td>
+                                <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
+                                <td>
+                                    <input asp-for="@p.OrderQuantity" type="number" id="quantity" name="quantity" min="1" readonly />
+                                    <a class="btn btn-sm btn-outline-secondary" asp-action="UpdateQuantity" asp-route-id="@p.OrderId">Change</a>
+                                </td>
+                                <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price * p.OrderQuantity)</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@p.OrderId">🗑 Remove</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </section>
         <a class="btn btn-sm btn-outline-dark" asp-action="UpdateInventory">Complete Order</a>
     </section>
 </div>
