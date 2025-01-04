@@ -103,7 +103,20 @@ namespace AIMS.Data
 			}
 		}
 
-		//Get single product using ID from DB
+		/// get product total 
+		public void TotalProduct()
+		{
+			int total=0;
+
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				string sql = "SELECT SUM(Quantity) AS TotalQuantity FROM Product";
+				SqlCommand command = new SqlCommand(sql, connection);
+				connection.Open();
+				command.ExecuteNonQuery();
+			}
+		}
+
 		public Product? GetProductById(int productId)
 		{
 			Product? product = null;
