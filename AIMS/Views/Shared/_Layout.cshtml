@@ -1,1 +1,99 @@
-﻿
+﻿@using AIMS.Utilities
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AIMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
+        {
+                <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
+                    <div class="container-fluid">
+                        <h2 class="text-center py-3">AIMS</h2>
+                        <div class="text-light bg-dark p-2">
+                             Role: @HttpContextAccessor.HttpContext.Session.GetString("Role")
+                        </div>
+                        <ul class="nav flex-column">
+                        @{
+                            var role = HttpContextAccessor.HttpContext.Session.GetString("Role") ?? "";
+                        }
+
+                            <!-- Products -->
+                        @if (RoleHelper.CanAccess(role, "Products"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="Product" asp-action="Index">Products</a>
+                                    </li>
+                        }
+
+                            <!-- Order -->
+                        @if (RoleHelper.CanAccess(role, "Order"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="Order" asp-action="Index">Order</a>
+                                    </li>
+                        }
+
+                            <!-- Inventory -->
+                        @if (RoleHelper.CanAccess(role, "Inventory"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="Inventory" asp-action="Index">Inventory</a>
+                                    </li>
+                        }
+
+                            <!-- History -->
+                        @if (RoleHelper.CanAccess(role, "History"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="History" asp-action="Index">History</a>
+                                    </li>
+                        }
+
+                            <!-- User Control -->
+                        @if (RoleHelper.CanAccess(role, "User Control"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="User" asp-action="Index">User Control</a>
+                                    </li>
+                        }
+
+                            <!-- Analytics -->
+                        @if (RoleHelper.CanAccess(role, "Analytics"))
+                        {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Analytics</a>
+                                    </li>
+                        }
+                        </ul>
+                        <form method="post" asp-controller="Login" asp-action="Logout">
+                            <button class="btn btn-warning w-100 mt-3">Logout</button>
+                        </form>
+                    </div>
+                </nav>
+        }
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - AIMS
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
