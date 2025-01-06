@@ -12,7 +12,7 @@ namespace AIMS.Controllers
         //Access datamodel to handel CRUD operations in DB
         private readonly OrderData _dataAccess;
         private readonly ProductData _dataAccessProduct;
-        public OrderController(OrderData dataAccess, ProductData dataAccessProduct)
+		public OrderController(OrderData dataAccess, ProductData dataAccessProduct)
         {
             _dataAccess = dataAccess;
             _dataAccessProduct = dataAccessProduct;
