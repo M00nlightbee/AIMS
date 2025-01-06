@@ -1,16 +1,14 @@
-﻿using AIMS.Models;
+﻿using AIMS.Data;
+using AIMS.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 namespace AIMS.Services
 {
-    public class UserService
+    public class UserService : DataAccess
     {
-        private readonly string _connectionString;
-
-        public UserService(IConfiguration configuration)
-        {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        public UserService(IConfiguration configuration) : base(configuration)
+		{
         }
 
         public Users ValidateUser(string email, string password)
