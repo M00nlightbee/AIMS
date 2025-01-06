@@ -1,51 +1,156 @@
-﻿<!-- History Index View -->
+﻿@model IEnumerable<AIMS.Models.OrderDetails>
 
-@model IEnumerable<AIMS.Models.OrderDetails>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
+
 <div class="col-md-10 ms-sm-auto px-md-4">
-    <h2>History</h2>
-    <!-- History Table -->
-    <section class="inventory-table mt-4">
-        <table class="table table-striped align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order#</th>
-                    <th>Order completion date</th>
-                    <th>Item Name</th>
-                    <th>Size</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTableBody">
-                @if (Model == null)
-                {
-                    <tr>
-                        <td colspan="5" class="text-center">No Model Data</td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var p in Model)
-                    {
-                        <tr>
-                            <td>@p.OrderNumber</td>
-                            <td>@string.Format("{0:dddd, dd MMMM yyyy}", p.CreatedAt)</td>
-                            <td>@p.ProductName</td>
-                            <td>@p.ProductSize</td>
-                            <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
-                            <td>@p.OrderQuantity</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </section> 
+	<h2>History</h2>
+
+
+	<!-- Filter Section -->
+	<div class="row mb-3">
+		<div class="col-md-3">
+			<label for="filterDate" class="form-label">Order Date</label>
+			<input type="date" id="filterDate" class="form-control" />
+		</div>
+		<div class="col-md-3">
+			<label for="filterItem" class="form-label">Item Name</label>
+			<input type="text" id="filterItem" class="form-control" placeholder="Search Item" />
+		</div>
+		<div class="col-md-3">
+			<label for="filterSize" class="form-label">Size</label>
+			<input type="text" id="filterSize" class="form-control" placeholder="Search Size" />
+		</div>
+		<div class="col-md-3 align-self-end">
+			<button id="clearFilters" class="btn btn-secondary">Clear Filters</button>
+			<button id="generateReport" class="btn btn-primary ms-2">Generate Report</button>
+		</div>
+	</div>
+
+
+	<!-- History Table -->
+	<section class="inventory-table mt-4">
+		<table class="table table-striped align-middle" id="historyTable">
+			<thead class="table-dark">
+				<tr>
+					<th>Order#</th>
+					<th>Order completion date</th>
+					<th>Item Name</th>
+					<th>Size</th>
+					<th>Unit Price</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody id="inventoryTableBody">
+				@if (Model == null)
+				{
+					<tr>
+						<td colspan="6" class="text-center">No Model Data</td>
+					</tr>
+				}
+				else
+				{
+					@foreach (var p in Model)
+					{
+						<tr data-date="@p.CreatedAt.ToString("yyyy-MM-dd")" data-item="@p.ProductName" data-size="@p.ProductSize">
+							<td>@p.OrderNumber</td>
+							<td>@string.Format("{0:dddd, dd MMMM yyyy}", p.CreatedAt)</td>
+							<td>@p.ProductName</td>
+							<td>@p.ProductSize</td>
+							<td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
+							<td>@p.OrderQuantity</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</section>
 </div>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+	const filterDate = document.getElementById('filterDate');
+	const filterItem = document.getElementById('filterItem');
+	const filterSize = document.getElementById('filterSize');
+	const clearFilters = document.getElementById('clearFilters');
+	const generateReport = document.getElementById('generateReport');
+	const tableBody = document.getElementById('inventoryTableBody');
+	const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+
+	const filterTable = () => {
+	const dateValue = filterDate.value;
+	const itemValue = filterItem.value.toLowerCase();
+	const sizeValue = filterSize.value.toLowerCase();
+
+
+	rows.forEach(row => {
+	const rowDate = row.getAttribute('data-date');
+	const rowItem = row.getAttribute('data-item').toLowerCase();
+	const rowSize = row.getAttribute('data-size').toLowerCase();
+	const matchesDate = !dateValue || rowDate === dateValue;
+	const matchesItem = !itemValue || rowItem.includes(itemValue);
+	const matchesSize = !sizeValue || rowSize.includes(sizeValue);
+
+
+	if (matchesDate && matchesItem && matchesSize) {
+	row.style.display = '';
+	} else {
+	row.style.display = 'none';
+	}
+	});
+	};
+
+
+	filterDate.addEventListener('input', filterTable);
+	filterItem.addEventListener('input', filterTable);
+	filterSize.addEventListener('input', filterTable);
+	clearFilters.addEventListener('click', () => {
+	filterDate.value = '';
+	filterItem.value = '';
+	filterSize.value = '';
+	filterTable();
+	});
+
+
+	generateReport.addEventListener('click', () => {
+	const { jsPDF } = window.jspdf;
+	const doc = new jsPDF();
+
+
+	const table = document.getElementById('historyTable');
+	const rows = table.querySelectorAll('tbody tr');
+	let y = 20;
+
+
+	doc.text('History Report', 14, 10);
+	doc.setFontSize(10);
+
+
+	// Add headers
+	const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+	doc.text(headers.join(' | '), 14, y);
+	y += 10;
+
+
+	// Add data rows
+	rows.forEach(row => {
+	if (row.style.display !== 'none') { // Include only visible rows
+	const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim());
+	doc.text(cells.join(' | '), 14, y);
+	y += 10;
+	}
+	});
+
+
+	doc.save('history_report.pdf');
+	});
+	});
+</script>
 
 
