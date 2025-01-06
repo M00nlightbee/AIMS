@@ -14,70 +14,70 @@
     <header>
         @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
         {
-                <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
-                    <div class="container-fluid">
-                        <h2 class="text-center py-3">AIMS</h2>
-                        <div class="text-light bg-dark p-2">
-                             Role: @HttpContextAccessor.HttpContext.Session.GetString("Role")
-                        </div>
-                        <ul class="nav flex-column">
+            <nav class="col-md-2 d-md-block bg-dark text-white vh-100 p-3 sidebar">
+                <div class="container-fluid">
+                    <h2 class="text-center py-3">AIMS</h2>
+                    <div class="text-light bg-dark p-2">
+                        Role: @HttpContextAccessor.HttpContext.Session.GetString("Role")
+                    </div>
+                    <ul class="nav flex-column">
                         @{
                             var role = HttpContextAccessor.HttpContext.Session.GetString("Role") ?? "";
                         }
 
-                            <!-- Products -->
+                        <!-- Products -->
                         @if (RoleHelper.CanAccess(role, "Products"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="Product" asp-action="Index">Products</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Product" asp-action="Index">Products</a>
+                            </li>
                         }
 
-                            <!-- Order -->
+                        <!-- Order -->
                         @if (RoleHelper.CanAccess(role, "Order"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="Order" asp-action="Index">Order</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Order" asp-action="Index">Order</a>
+                            </li>
                         }
 
-                            <!-- Inventory -->
+                        <!-- Inventory -->
                         @if (RoleHelper.CanAccess(role, "Inventory"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="Inventory" asp-action="Index">Inventory</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Inventory" asp-action="Index">Inventory</a>
+                            </li>
                         }
 
-                            <!-- History -->
+                        <!-- History -->
                         @if (RoleHelper.CanAccess(role, "History"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="History" asp-action="Index">History</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="History" asp-action="Index">History</a>
+                            </li>
                         }
 
-                            <!-- User Control -->
+                        <!-- User Control -->
                         @if (RoleHelper.CanAccess(role, "User Control"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="User" asp-action="Index">User Control</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="User" asp-action="Index">User Control</a>
+                            </li>
                         }
 
-                            <!-- Analytics -->
+                        <!-- Analytics -->
                         @if (RoleHelper.CanAccess(role, "Analytics"))
                         {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Analytics</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Analytics</a>
+                            </li>
                         }
-                        </ul>
-                        <form method="post" asp-controller="Login" asp-action="Logout">
-                            <button class="btn btn-warning w-100 mt-3">Logout</button>
-                        </form>
-                    </div>
-                </nav>
+                    </ul>
+                    <form method="post" asp-controller="Login" asp-action="Logout">
+                        <button class="btn btn-warning w-100 mt-3">Logout</button>
+                    </form>
+                </div>
+            </nav>
         }
     </header>
 
@@ -92,6 +92,9 @@
             &copy; 2024 - AIMS
         </div>
     </footer>
+
+    <!-- Make Scripts Section Optional -->
+    @RenderSection("Scripts", required: false)
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
