@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+
     <header>
         @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
         {
@@ -103,5 +104,6 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
