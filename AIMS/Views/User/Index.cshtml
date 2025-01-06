@@ -1,5 +1,4 @@
 ﻿<!-- User Index View -->
-
 @model IEnumerable<AIMS.Models.Users>
 
 @{
@@ -11,10 +10,10 @@
         <h2>User control</h2>
         <div class="row g-3">
             <div class="col-md-3">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search by item..." oninput="filterTable()">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name..." oninput="filterTable()">
             </div>
             <div class="col-md-2">
-                <select class="form-select">
+                <select class="form-select" id="branchFilter" onchange="filterTable()">
                     <option value="">Branch</option>
                     <option value="Sheffield">Sheffield</option>
                     <option value="London">London</option>
@@ -22,11 +21,11 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <select class="form-select">
+                <select class="form-select" id="roleFilter" onchange="filterTable()">
                     <option value="">Role</option>
                     <option value="Admin">Admin</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Associate">Associate</option>
+                    <option value="Branch Manager">Branch Manager</option>
+                    <option value="Sales Associate"> Sales Associate</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -48,11 +47,11 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="inventoryTableBody">
+            <tbody id="userTableBody">
                 @if (Model == null)
                 {
                     <tr>
-                        <td colspan="5" class="text-center">No Model Data</td>
+                        <td colspan="6" class="text-center">No Model Data</td>
                     </tr>
                 }
                 else
@@ -64,7 +63,7 @@
                             <td>@p.LastName</td>
                             <td>@p.Branch</td>
                             <td>@p.Role</td>
-                            <td>@p.CreatedDate</td>
+                            <td>@p.CreatedDate.ToShortDateString()</td>
                             <td>
                                 <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@p.UserId">✎ Edit</a>
                                 <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@p.UserId">🗑 Delete</a>
@@ -75,9 +74,33 @@
             </tbody>
         </table>
     </section>
-
-    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
-    <script src="~/js/inventory.js"></script>
 </div>
 
+<script>
+    // Function to filter the user table
+    function filterTable() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const branchFilter = document.getElementById('branchFilter').value.toLowerCase();
+        const roleFilter = document.getElementById('roleFilter').value.toLowerCase();
+        const tableRows = document.querySelectorAll('#userTableBody tr');
 
+        tableRows.forEach(row => {
+            const firstName = row.children[0].textContent.toLowerCase();
+            const lastName = row.children[1].textContent.toLowerCase();
+            const branch = row.children[2].textContent.toLowerCase();
+            const role = row.children[3].textContent.toLowerCase();
+
+            // Filter conditions
+            const matchesSearch = !searchInput || firstName.includes(searchInput) || lastName.includes(searchInput);
+            const matchesBranch = !branchFilter || branch === branchFilter;
+            const matchesRole = !roleFilter || role === roleFilter;
+
+            // Show/hide rows based on filters
+            if (matchesSearch && matchesBranch && matchesRole) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>

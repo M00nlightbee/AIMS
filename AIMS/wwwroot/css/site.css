@@ -1,106 +1,40 @@
-/*html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}*/
-
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* Sidebar */
+/* Sidebar styling */
 .sidebar {
     background-color: #343a40;
     height: 100vh;
     width: 240px;
     position: fixed;
-}
-
-/* Main Container */
-.main-container {
     display: flex;
     flex-direction: column;
-    margin-left: 240px; /* Align next to the sidebar */
-    height: 100vh;
-    overflow-y: auto;
+    padding-top: 20px;
 }
 
-/* Main Content */
-main {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
+/* Nav styles */
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-/* Order Section */
-#orderSection {
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
+.nav-item {
+    margin: 0;
 }
 
-/* Active Link Highlight */
-.nav-link.active {
-    background-color: #6c757d;
-    color: white;
-    font-weight: bold;
+.nav-link {
+    display: block;
+    color: #dcdcdc;
+    padding: 10px 20px;
+    text-decoration: none;
 }
 
-/* Product Card Styles */
-.card-img-top {
-    height: 150px;
-    object-fit: cover;
-    border-bottom: 1px solid #ddd;
-}
+    .nav-link:hover {
+        background-color: #495057;
+        color: white;
+    }
 
-.card-body h5 {
-    font-weight: bold;
-}
-
-.card-body p {
-    color: #333;
-}
-
-#productGrid {
-    margin-top: 20px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 65vh;
-}
-#all-inventory-table-flex, #order-table-flex, #user-table-flex, #scroller-section{
-    display: flex;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 75vh;
-    flex-direction: column;
-}
-
-#scroller-section{
-  margin-top: 20px;
-}
-
-/* Filter Button Styles */
-.btn-outline-dark {
-    flex: 1;
+    /* Active link highlight */
+    .nav-link.active {
+        background-color: #6c757d; /* Highlight color */
+        color: white;
+        font-weight: bold;
+    }

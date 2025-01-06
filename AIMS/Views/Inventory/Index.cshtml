@@ -13,7 +13,7 @@
                 <input type="text" class="form-control" id="searchInput" placeholder="Search by item..." oninput="filterTable()">
             </div>
             <div class="col-md-2">
-                <select class="form-select">
+                <select class="form-select" id="branchFilter" onchange="filterTable()">
                     <option value="">Branch</option>
                     <option value="Sheffield">Sheffield</option>
                     <option value="London">London</option>
@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <select class="form-select">
+                <select class="form-select" id="categoryFilter" onchange="filterTable()">
                     <option value="">Category</option>
                     <option value="Clothing">Clothing</option>
                     <option value="Accessories">Accessories</option>
@@ -94,6 +94,32 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script>
+    // Function to filter the inventory table
+    function filterTable() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const branchFilter = document.getElementById('branchFilter').value.toLowerCase();
+        const categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
+        const tableRows = document.querySelectorAll('#inventoryTableBody tr');
+
+        tableRows.forEach(row => {
+            const itemName = row.children[0].textContent.toLowerCase();
+            const category = row.children[1].textContent.toLowerCase();
+            const branch = row.children[2].textContent.toLowerCase();
+
+            // Filter conditions
+            const matchesSearch = !searchInput || itemName.includes(searchInput);
+            const matchesBranch = !branchFilter || branch === branchFilter;
+            const matchesCategory = !categoryFilter || category === categoryFilter;
+
+            // Show/hide rows based on filters
+            if (matchesSearch && matchesBranch && matchesCategory) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const generateReport = document.getElementById('generateReport');
         const table = document.getElementById('inventoryTable');
