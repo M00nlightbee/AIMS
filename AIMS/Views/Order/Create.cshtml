@@ -1,14 +1,21 @@
 ﻿<!-- Order Create View -->
-
 @model Product
 
 @{
     ViewData["Title"] = "Details";
 }
 
+<style>
+    .scrollable-container {
+        max-height: calc(100vh - 100px); /* Adjust for header/footer spacing */
+        overflow-y: auto;
+        padding: 10px;
+    }
+</style>
+
 <a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
 
-<div class="col-md-10 ms-sm-auto px-md-4">
+<div class="col-md-10 ms-sm-auto px-md-4 scrollable-container">
     @if (Model == null)
     {
         <p colspan="5" class="text-center">No Model Data</p>
@@ -21,12 +28,15 @@
         <div class="col-md-7 col-sm-12 col-xs-12" id="tbodyid">
             <h2>@Model.ProductName</h2>
             <hr />
-            <h3 class="price-container">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", Model.Price)<small> *includes tax</small></h3>
+            <h3 class="price-container">
+                @string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", Model.Price)
+                <small> *includes tax</small>
+            </h3>
             <hr />
         </div>
 
         <div>
-            <p><strong>Size:</strong> <Span>@Model.ProductSize</Span></p>
+            <p><strong>Size:</strong> <span>@Model.ProductSize</span></p>
             <hr />
             <strong>Description</strong>
             <p>@Model.ProductDescription</p>
@@ -48,5 +58,3 @@
         </div>
     }
 </div>
-
-
