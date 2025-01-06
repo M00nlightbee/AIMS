@@ -1,4 +1,5 @@
-﻿using AIMS.Data;
+﻿using System.Data;
+using AIMS.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIMS.Controllers
@@ -7,16 +8,27 @@ namespace AIMS.Controllers
 	{
 		//Data access for order history
 		private readonly HistoryData _dataAccess;
-		public HistoryController(HistoryData dataAccess)
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		public HistoryController(HistoryData dataAccess, IHttpContextAccessor httpContextAccessor)
 		{
 			_dataAccess = dataAccess;
+			_httpContextAccessor = httpContextAccessor;
 		}
 
 		//Display all order history
 		public IActionResult Index()
 		{
-			var orderHistory = _dataAccess.GetOrderHistory();
-			return View(orderHistory);
+			var role = _httpContextAccessor.HttpContext.Session.GetString("Role");
+			if (role == "Admin")
+			{
+				var orderHistory = _dataAccess.GetOrderHistory();
+				return View(orderHistory);
+			}
+			else
+			{
+				return RedirectToAction("NoAccess", "Home");
+			}
+
 		}
 
 	}
