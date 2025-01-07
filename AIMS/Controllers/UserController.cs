@@ -55,7 +55,9 @@ namespace AIMS.Controllers
 				if (ModelState.IsValid)
 				{
 					_dataAccess.CreateUser(user);
+					TempData["UserAdded"] = true;
 					return RedirectToAction("Index");
+					
 				}
 				return View(user);
 			}
