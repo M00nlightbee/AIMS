@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var userAdded = TempData["UserAdded"] as bool?;
 }
 
 <div class="col-md-10 ms-sm-auto px-md-4">
@@ -76,6 +77,24 @@
     </section>
 </div>
 
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="userAddedModal" tabindex="-1" aria-labelledby="userAddedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userAddedModalLabel">User Added</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                A new user has been successfully added.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Function to filter the user table
     function filterTable() {
@@ -103,4 +122,21 @@
             }
         });
     }
+
+     // Function to show the user added modal
+    function showUserAddedModal() {
+        const userAddedModal = new bootstrap.Modal(document.getElementById('userAddedModal'));
+        userAddedModal.show();
+    }
+
+    // Check if the user was added and show the modal
+    @if (userAdded == true)
+    {
+        <text>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                showUserAddedModal();
+            });
+        </text>
+    }
+
 </script>
