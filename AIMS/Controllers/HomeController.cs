@@ -1,3 +1,4 @@
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using AIMS.Data;
@@ -9,22 +10,39 @@ namespace AIMS.Controllers
     public class HomeController : Controller
     {
         private readonly ProductData _dataAccess;
-		public HomeController(ProductData dataAccess)
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		public HomeController(ProductData dataAccess, IHttpContextAccessor httpContextAccessor)
 		{
 			_dataAccess = dataAccess;
+			_httpContextAccessor = httpContextAccessor;
 		}
 
 		public IActionResult Index()
 		{
-			var analytics = new Analytics
+			var role = _httpContextAccessor.HttpContext.Session.GetString("Role");
+			if (role == "Admin")
 			{
-				TotalQuantity = _dataAccess.GetTotalQuantity().TotalQuantity,
-				StockByBranch = _dataAccess.GetStockByBranch(),
-				StockByCategory = _dataAccess.GetStockByCategory()
-			};
+				var analytics = new Analytics
+				{
+					TotalQuantity = _dataAccess.GetTotalQuantity().TotalQuantity,
+					StockByBranch = _dataAccess.GetStockByBranch(),
+					StockByCategory = _dataAccess.GetStockByCategory()
+				};
 
-			return View(analytics);
+				return View(analytics);
+			}
+			else
+			{
+				return RedirectToAction("NoAccess", "Home");
+			}
+	
 		}
+
+		public IActionResult NoAccess()
+		{
+			return View();
+		}
+
 		public IActionResult Privacy()
         {
             return View();
