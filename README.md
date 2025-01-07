@@ -59,23 +59,86 @@ AIMS/ ├── Controllers/ │ ├── HomeController.cs │ ├── Inven
 - Install [Visual Studio 2022](https://visualstudio.microsoft.com/) with ASP.NET and web development workload.
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/M00nlightbee/AIMS.git
-   cd aims
-Set up the database:
+
+1. Open SQL Server Object Explorer
+Launch Visual Studio and navigate to View > SQL Server Object Explorer.
+
+2. Connect to the Database
+In SQL Server Object Explorer, click Add SQL Server. Select localdb\MSSQLLocalDB and click Connect.
+
+3. Create the Database
+Right-click Databases in the connected server, select Add New Database, name it AIMS, and click OK.
+
+4. Create Tables
+Expand the AIMS database node, right-click Tables, and select Add New Table. Use the following structure:
+ 
+ CREATE TABLE [dbo].[Orders] (
+    [OrderId]       INT  IDENTITY (1, 1) NOT NULL,
+    [OrderQuantity] INT  NOT NULL,
+    [CreatedAt]     DATE DEFAULT (getdate()) NOT NULL,
+    [ProductId]     INT  NULL,
+    PRIMARY KEY CLUSTERED ([OrderId] ASC),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
+);
+
+CREATE TABLE [dbo].[Product] (
+    [ProductId]          INT            IDENTITY (1, 1) NOT NULL,
+    [ProductName]        NVARCHAR (50)  NOT NULL,
+    [ProductDescription] NVARCHAR (MAX) NOT NULL,
+    [ProductSize]        NVARCHAR (50)  NOT NULL,
+    [Quantity]           INT            NOT NULL,
+    [Price]              MONEY          NOT NULL,
+    [Branch]             NVARCHAR (50)  NOT NULL,
+    [Category]           NVARCHAR (50)  NOT NULL,
+    [CreatedDate]        DATE           DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]        DATE           DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ProductId] ASC)
+);
+
+CREATE TABLE [dbo].[Users] (
+    [UserId]       INT           IDENTITY (1, 1) NOT NULL,
+    [FirstName]    NVARCHAR (50) NULL,
+    [LastName]     NVARCHAR (50) NULL,
+    [Branch]       NVARCHAR (50) NULL,
+    [Role]         NVARCHAR (50) NULL,
+    [Email]        NVARCHAR (50) NULL,
+    [UserPassword] NVARCHAR (50) NULL,
+    [CreatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC)
+);
+
+CREATE TABLE [dbo].[ArchivedOrderDetails] (
+    [ArchivedOrderId] INT  IDENTITY (1, 1) NOT NULL,
+    [OrderId]         INT  NOT NULL,
+    [OrderNumber]     INT  NOT NULL,
+    [OrderQuantity]   INT  NOT NULL,
+    [CreatedAt]       DATE DEFAULT (getdate()) NOT NULL,
+    [ProductId]       INT  NULL,
+    PRIMARY KEY CLUSTERED ([ArchivedOrderId] ASC),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
+);
+
+5. Insert Dummy Data Open a new query in SQL Server Object Explorer and execute the following scripts:
+ 
+INSERT INTO [dbo].[Users] ([FirstName], [LastName], [Branch], [Role], [Email], [UserPassword], [CreatedDate], [UpdatedDate])
+VALUES 
+('Alice', 'Admin', 'Sheffield', 'Admin', 'alice.admin@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Bob', 'Manager', 'London', 'Branch Manager', 'bob.manager@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Charlie', 'Sales', 'Derby', 'Sales Associate', 'charlie.sales@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
+
+
 Configure the connection string in appsettings.json.
 Run the application:
 dotnet run
 Access the application in your browser:
 http://localhost:5213
-Usage
-
+---
+Usage:
 Branch Managers: Monitor and manage branch-specific inventory.
 Administrators: Oversee all users, roles, and analytics.
 Sales Assistants: View inventory details and assist with sales operations.
 Contributing
-
 
 
 This project is licensed under the MIT License. See the LICENSE file for details.
