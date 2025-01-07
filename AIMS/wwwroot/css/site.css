@@ -1,13 +1,19 @@
 /* Sidebar styling */
-.sidebar {
-    background-color: #343a40;
-    height: 100vh;
-    width: 240px;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
+/* Reset the margins and paddings of the body and sidebar */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensure full height */
 }
+
+.sidebar {
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+    position: fixed; /* Ensure it's pinned to the side */
+    top: 0; /* Remove any space above */
+    left: 0; /* Ensure it starts at the left */
+}
+
 
 /* Nav styles */
 .nav {
