@@ -46,35 +46,35 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 ---
 
 ## Project Structure
+
 ```
 AIMS/ 
-|- Controllers/ 
-  |-  HomeController.cs 
-  |-  InventoryController.cs  
-  |-  OrderController.cs  
-  |-  ProductController.cs  
-  |-  UserController.cs 
-|-  Data/  
-  |-  DataAccess.cs  
-  |-  ProductData.cs  
-  |-  UserData.cs 
-|-  Models/  
-  |-  Product.cs  
-  |-  Users.cs  
-  |-  ErrorViewModel.cs 
-|- Views/  
-  |-  Home/  
-  |-  Inventory/  
-  |-  User/  
-|-  Shared/ 
-  |-  wwwroot/  
-  |- css/  
-  |-  site.css 
-  |-  appsettings.json 
-  |-  Program.cs 
-  |-  launchSettings.json
+  |- Controllers/ 
+    |-  HomeController.cs 
+    |-  InventoryController.cs  
+    |-  OrderController.cs  
+    |-  ProductController.cs  
+    |-  UserController.cs 
+  |-  Data/  
+    |-  DataAccess.cs  
+    |-  ProductData.cs  
+    |-  UserData.cs 
+  |-  Models/  
+    |-  Product.cs  
+    |-  Users.cs  
+    |-  ErrorViewModel.cs 
+  |- Views/  
+    |-  Home/  
+    |-  Inventory/  
+    |-  User/  
+  |-  Shared/ 
+    |-  wwwroot/  
+    |- css/  
+    |-  site.css 
+    |-  appsettings.json 
+    |-  Program.cs 
+    |-  launchSettings.json
 ```
-
 
 ---
 
