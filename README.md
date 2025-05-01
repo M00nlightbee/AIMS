@@ -46,32 +46,35 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 ---
 
 ## Project Structure
+```
 AIMS/ 
-├── Controllers/ │ 
-  ├── HomeController.cs │ 
-  ├── InventoryController.cs │ 
-  ├── OrderController.cs │ 
-  ├── ProductController.cs │ 
-  └── UserController.cs 
-├── Data/ │ 
-  ├── DataAccess.cs │ 
-  ├── ProductData.cs │ 
-  ├── UserData.cs 
-├── Models/ │ 
-  ├── Product.cs │ 
-  ├── Users.cs │ 
-  └── ErrorViewModel.cs 
-├── Views/ │ 
-  ├── Home/ │ 
-  ├── Inventory/ │ 
-  ├── User/ │ 
-└── Shared/ 
-  ├── wwwroot/ │ 
-  ├── css/ │ 
-  │ └── site.css 
-  ├── appsettings.json 
-  ├── Program.cs 
-  ├── launchSettings.json
+|- Controllers/ 
+  |-  HomeController.cs 
+  |-  InventoryController.cs  
+  |-  OrderController.cs  
+  |-  ProductController.cs  
+  |-  UserController.cs 
+|-  Data/  
+  |-  DataAccess.cs  
+  |-  ProductData.cs  
+  |-  UserData.cs 
+|-  Models/  
+  |-  Product.cs  
+  |-  Users.cs  
+  |-  ErrorViewModel.cs 
+|- Views/  
+  |-  Home/  
+  |-  Inventory/  
+  |-  User/  
+|-  Shared/ 
+  |-  wwwroot/  
+  |- css/  
+  |-  site.css 
+  |-  appsettings.json 
+  |-  Program.cs 
+  |-  launchSettings.json
+```
+
 
 ---
 
@@ -160,20 +163,23 @@ VALUES
 ('Bob', 'Manager', 'London', 'Branch Manager', 'bob.manager@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
 ('Charlie', 'Sales', 'Derby', 'Sales Associate', 'charlie.sales@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
 ```
-Configure the connection string in appsettings.json.
-Run the application:
-dotnet run
-Access the application in your browser:
-http://localhost:5213
----
-Usage:
-Branch Managers: Monitor and manage branch-specific inventory.
-Administrators: Oversee all users, roles, and analytics.
-Sales Assistants: View inventory details and assist with sales operations.
-Contributing
 
+### Configure connection
+- Configure the connection string in appsettings.json.
+- Run the application: dotnet run
+- Access the application in your browser:  http://localhost:yourlocalport
+
+---
+
+## Usage
+- Branch Managers: Monitor and manage branch-specific inventory.
+- Administrators: Oversee all users, roles, and analytics.
+- Sales Assistants: View inventory details and assist with sales operations.
+
+---
+
+## Contributing
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Contact for queries or feedback:
-Email: Aim@gmail.com
+Contact for queries or feedback: Please leave a comment on the repo
