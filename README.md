@@ -46,8 +46,32 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 ---
 
 ## Project Structure
-AIMS/ ├── Controllers/ │ ├── HomeController.cs │ ├── InventoryController.cs │ ├── OrderController.cs │ ├── ProductController.cs │ └── UserController.cs ├── Data/ │ ├── DataAccess.cs │ ├── ProductData.cs │ └── UserData.cs ├── Models/ │ ├── Product.cs │ ├── Users.cs │ └── ErrorViewModel.cs ├── Views/ │ ├── Home/ │ ├── Inventory/ │ ├── User/ │ └── Shared/ ├── wwwroot/ │ ├── css/ │ │ └── site.css ├── appsettings.json ├── Program.cs ├── launchSettings.json
-
+AIMS/ 
+├── Controllers/ │ 
+  ├── HomeController.cs │ 
+  ├── InventoryController.cs │ 
+  ├── OrderController.cs │ 
+  ├── ProductController.cs │ 
+  └── UserController.cs 
+├── Data/ │ 
+  ├── DataAccess.cs │ 
+  ├── ProductData.cs │ 
+  ├── UserData.cs 
+├── Models/ │ 
+  ├── Product.cs │ 
+  ├── Users.cs │ 
+  └── ErrorViewModel.cs 
+├── Views/ │ 
+  ├── Home/ │ 
+  ├── Inventory/ │ 
+  ├── User/ │ 
+└── Shared/ 
+  ├── wwwroot/ │ 
+  ├── css/ │ 
+  │ └── site.css 
+  ├── appsettings.json 
+  ├── Program.cs 
+  ├── launchSettings.json
 
 ---
 
@@ -71,16 +95,23 @@ Right-click Databases in the connected server, select Add New Database, name it 
 
 4. Create Tables
 Expand the AIMS database node, right-click Tables, and select Add New Table. Use the following structure:
- 
- CREATE TABLE [dbo].[Orders] (
-    [OrderId]       INT  IDENTITY (1, 1) NOT NULL,
-    [OrderQuantity] INT  NOT NULL,
-    [CreatedAt]     DATE DEFAULT (getdate()) NOT NULL,
-    [ProductId]     INT  NULL,
-    PRIMARY KEY CLUSTERED ([OrderId] ASC),
-    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
-);
 
+```bash
+CREATE TABLE [dbo].[Users] (
+    [UserId]       INT           IDENTITY (1, 1) NOT NULL,
+    [FirstName]    NVARCHAR (50) NULL,
+    [LastName]     NVARCHAR (50) NULL,
+    [Branch]       NVARCHAR (50) NULL,
+    [Role]         NVARCHAR (50) NULL,
+    [Email]        NVARCHAR (50) NULL,
+    [UserPassword] NVARCHAR (50) NULL,
+    [CreatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC)
+);
+```
+
+```bash
 CREATE TABLE [dbo].[Product] (
     [ProductId]          INT            IDENTITY (1, 1) NOT NULL,
     [ProductName]        NVARCHAR (50)  NOT NULL,
@@ -94,20 +125,20 @@ CREATE TABLE [dbo].[Product] (
     [UpdatedDate]        DATE           DEFAULT (getdate()) NOT NULL,
     PRIMARY KEY CLUSTERED ([ProductId] ASC)
 );
+```
 
-CREATE TABLE [dbo].[Users] (
-    [UserId]       INT           IDENTITY (1, 1) NOT NULL,
-    [FirstName]    NVARCHAR (50) NULL,
-    [LastName]     NVARCHAR (50) NULL,
-    [Branch]       NVARCHAR (50) NULL,
-    [Role]         NVARCHAR (50) NULL,
-    [Email]        NVARCHAR (50) NULL,
-    [UserPassword] NVARCHAR (50) NULL,
-    [CreatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
-    [UpdatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
-    PRIMARY KEY CLUSTERED ([UserId] ASC)
+```bash
+ CREATE TABLE [dbo].[Orders] (
+    [OrderId]       INT  IDENTITY (1, 1) NOT NULL,
+    [OrderQuantity] INT  NOT NULL,
+    [CreatedAt]     DATE DEFAULT (getdate()) NOT NULL,
+    [ProductId]     INT  NULL,
+    PRIMARY KEY CLUSTERED ([OrderId] ASC),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
 );
+```
 
+```bash
 CREATE TABLE [dbo].[ArchivedOrderDetails] (
     [ArchivedOrderId] INT  IDENTITY (1, 1) NOT NULL,
     [OrderId]         INT  NOT NULL,
@@ -118,16 +149,17 @@ CREATE TABLE [dbo].[ArchivedOrderDetails] (
     PRIMARY KEY CLUSTERED ([ArchivedOrderId] ASC),
     FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
 );
+```
 
 5. Insert Dummy Data Open a new query in SQL Server Object Explorer and execute the following scripts:
- 
+
+```bash
 INSERT INTO [dbo].[Users] ([FirstName], [LastName], [Branch], [Role], [Email], [UserPassword], [CreatedDate], [UpdatedDate])
 VALUES 
 ('Alice', 'Admin', 'Sheffield', 'Admin', 'alice.admin@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
 ('Bob', 'Manager', 'London', 'Branch Manager', 'bob.manager@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
 ('Charlie', 'Sales', 'Derby', 'Sales Associate', 'charlie.sales@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
-
-
+```
 Configure the connection string in appsettings.json.
 Run the application:
 dotnet run
