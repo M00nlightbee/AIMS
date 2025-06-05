@@ -11,6 +11,8 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 - Track product quantities, categories, and branch allocations.
 - Generate alerts for low-stock items.
 
+![image](https://github.com/user-attachments/assets/25424f58-d270-437e-8d41-7a310c77e234)
+
 ### User Management
 - Create and manage user accounts for different roles:
   - **Branch Managers**
@@ -18,10 +20,14 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
   - **Sales Assistants**
 - Assign users to specific branches.
 
+![image](https://github.com/user-attachments/assets/0612d249-1c6b-4ec2-86e0-479f7ec3e478)
+
 ### Analytics Dashboard
 - Visualise inventory and user statistics.
 - Analyse inventory value and low-stock alerts.
 - Role-based insights for effective decision-making.
+
+![image](https://github.com/user-attachments/assets/5d41ccd5-eb84-4628-948e-7ba7967ad974)
 
 ### Responsive Design
 - Fully styled with **CSS** and responsive layouts.
