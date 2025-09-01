@@ -167,9 +167,9 @@ CREATE TABLE [dbo].[ArchivedOrderDetails] (
 ```bash
 INSERT INTO [dbo].[Users] ([FirstName], [LastName], [Branch], [Role], [Email], [UserPassword], [CreatedDate], [UpdatedDate])
 VALUES 
-('Alice', 'Admin', 'Sheffield', 'Admin', 'alice.admin@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
-('Bob', 'Manager', 'London', 'Branch Manager', 'bob.manager@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
-('Charlie', 'Sales', 'Derby', 'Sales Associate', 'charlie.sales@example.com', 'password123', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
+('Alice', 'Admin', 'Sheffield', 'Admin', 'alice.admin@example.com', 'pwdAdmin', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Bob', 'Manager', 'London', 'Manager', 'bob.manager@example.com', 'pwdManager', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Charlie', 'Associate', 'Derby', 'Associate', 'charlie.sales@example.com', 'pwdAssociate', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
 ```
 
 ### Configure connection
