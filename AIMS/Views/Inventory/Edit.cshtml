@@ -5,72 +5,69 @@
     ViewData["Title"] = "Update Product";
 }
 
-<style>
-    .scrollable-container {
-        max-height: calc(100vh - 100px); /* Adjust as needed for header/footer spacing */
-        overflow-y: auto;
-        padding: 10px;
-    }
-</style>
-
-<div class="col-md-10 ms-sm-auto px-md-4 scrollable-container">
-    <h1>Edit Product</h1>
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="ProductName">Product Name</label>
-            <input class="form-control" asp-for="ProductName" />
+<div class="container-fluid px-3 py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 scrollable-container">
+            <h1 class="mb-4 text-center">Edit Product</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="ProductName" class="form-label">Product Name</label>
+                    <input class="form-control" asp-for="ProductName" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ProductDescription" class="form-label">Description</label>
+                    <textarea asp-for="ProductDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ProductSize" class="form-label">Size</label>
+                    <select class="form-select" asp-for="ProductSize">
+                        <option value="" disabled selected>Select a size</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="ONE SIZE">ONE SIZE</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label">Quantity</label>
+                    <input class="form-control" asp-for="Quantity" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input class="form-control" asp-for="Price" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Branch" class="form-label">Branch</label>
+                    <select class="form-select" asp-for="Branch">
+                        <option value="" disabled selected>Select a branch</option>
+                        <option value="Sheffield">Sheffield</option>
+                        <option value="London">London</option>
+                        <option value="Derby">Derby</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Category" class="form-label">Category</label>
+                    <select class="form-select" asp-for="Category">
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Hats">Hats</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="UpdatedDate" class="form-label">Updated Date</label>
+                    <input class="form-control" asp-for="UpdatedDate" type="date" />
+                    <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+                    <button type="submit" class="btn btn-dark">Update Product</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label asp-for="ProductDescription">Description</label>
-            <textarea asp-for="ProductDescription" class="form-control" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-            <label asp-for="ProductSize">Size</label>
-            <select class="form-select" asp-for="ProductSize">
-                <option value="Select a size">Select a size</option>
-                <option value="XS">XS</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-                <option value="ONE SIZE">ONE SIZE</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label asp-for="Quantity">Quantity</label>
-            <input class="form-control" asp-for="Quantity" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Price">Price</label>
-            <input class="form-control" asp-for="Price" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Branch">Branch</label>
-            <select class="form-select" asp-for="Branch">
-                <option value="Select a branch">Select a branch</option>
-                <option value="Sheffield">Sheffield</option>
-                <option value="London">London</option>
-                <option value="Derby">Derby</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label asp-for="Category">Category</label>
-            <select class="form-select" asp-for="Category">
-                <option value="Select a category">Select a category</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Accessories">Accessories</option>
-                <option value="Hats">Hats</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label asp-for="UpdatedDate">Updated Date</label>
-            <input class="form-control" asp-for="UpdatedDate" type="date" />
-            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-        </div>
-        <div class="text-center panel-body">
-            <a class="btn btn-sm btn-outline-secondary" asp-action="Index">Cancel</a>
-            <button type="submit" class="btn btn-sm btn-dark">Update Product</button>
-        </div>
-    </form>
+    </div>
 </div>
+

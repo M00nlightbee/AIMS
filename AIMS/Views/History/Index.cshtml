@@ -4,69 +4,71 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="col-md-10 ms-sm-auto px-md-4">
-    <h2>History</h2>
+<div class="container-fluid px-3 py-4">
+    <div class="row justify-content-center">
+        <h2 class="mb-4 text-center">History</h2>
 
-    <!-- Filter Section -->
-    <div class="row mb-3">
-        <div class="col-md-3">
-            <label for="filterDate" class="form-label">Order Date</label>
-            <input type="date" id="filterDate" class="form-control" />
+        <!-- Filter Section -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="filterDate" class="form-label">Order Date</label>
+                <input type="date" id="filterDate" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label for="filterItem" class="form-label">Item Name</label>
+                <input type="text" id="filterItem" class="form-control" placeholder="Search Item" />
+            </div>
+            <div class="col-md-3">
+                <label for="filterSize" class="form-label">Size</label>
+                <input type="text" id="filterSize" class="form-control" placeholder="Search Size" />
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button id="clearFilters" class="btn btn-secondary">Clear Filters</button>
+            </div>
         </div>
-        <div class="col-md-3">
-            <label for="filterItem" class="form-label">Item Name</label>
-            <input type="text" id="filterItem" class="form-control" placeholder="Search Item" />
-        </div>
-        <div class="col-md-3">
-            <label for="filterSize" class="form-label">Size</label>
-            <input type="text" id="filterSize" class="form-control" placeholder="Search Size" />
-        </div>
-        <div class="col-md-3 align-self-end">
-            <button id="clearFilters" class="btn btn-secondary">Clear Filters</button>
-        </div>
-    </div>
 
-    <!-- History Table -->
-    <section class="inventory-table mt-4">
-        <table class="table table-striped align-middle" id="historyTable">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order#</th>
-                    <th>Order completion date</th>
-                    <th>Item Name</th>
-                    <th>Size</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTableBody">
-                @if (Model == null)
-                {
+        <!-- History Table -->
+        <section class="inventory-table mt-4">
+            <table class="table table-striped align-middle" id="historyTable">
+                <thead class="table-dark">
                     <tr>
-                        <td colspan="6" class="text-center">No Model Data</td>
+                        <th>Order#</th>
+                        <th>Order completion date</th>
+                        <th>Item Name</th>
+                        <th>Size</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
                     </tr>
-                }
-                else
-                {
-                    @foreach (var p in Model)
+                </thead>
+                <tbody id="inventoryTableBody">
+                    @if (Model == null)
                     {
-                        <tr data-date="@p.CreatedAt.ToString("yyyy-MM-dd")" data-item="@p.ProductName" data-size="@p.ProductSize">
-                            <td>@p.OrderNumber</td>
-                            <td>@string.Format("{0:dddd, dd MMMM yyyy}", p.CreatedAt)</td>
-                            <td>@p.ProductName</td>
-                            <td>@p.ProductSize</td>
-                            <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
-                            <td>@p.OrderQuantity</td>
+                        <tr>
+                            <td colspan="6" class="text-center">No Model Data</td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
-    </section>
+                    else
+                    {
+                        @foreach (var p in Model)
+                        {
+                            <tr data-date="@p.CreatedAt.ToString("yyyy-MM-dd")" data-item="@p.ProductName" data-size="@p.ProductSize">
+                                <td>@p.OrderNumber</td>
+                                <td>@string.Format("{0:dddd, dd MMMM yyyy}", p.CreatedAt)</td>
+                                <td>@p.ProductName</td>
+                                <td>@p.ProductSize</td>
+                                <td>@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</td>
+                                <td>@p.OrderQuantity</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </section>
 
-    <!-- Generate Report Button -->
-    <div class="mt-3">
-        <button id="generateReport" class="btn btn-primary">Generate Report</button>
+        <!-- Generate Report Button -->
+        <div class="d-flex justify-content-between mt-4">
+            <button id="generateReport" class="btn btn-primary">Generate Report</button>
+        </div>
     </div>
 </div>
 

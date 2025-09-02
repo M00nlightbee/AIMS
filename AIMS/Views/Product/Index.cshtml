@@ -6,51 +6,49 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="col-md-10 ms-sm-auto px-md-4">
-    <main>
-        <header class="d-flex justify-content-between align-items-center py-3">
-            <h2>Products</h2>
-        </header>
+<div class="container-fluid px-3 py-4">
+    <div class="row justify-content-center">
+        <main>
+            <h2 class="mb-4 text-center">Products</h2>
+            <!-- Filter Buttons -->
+            <section class="my-4">
+                <h3>Categories</h3>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-outline-dark">All</button>
+                    <button class="btn btn-outline-dark">Clothing</button>
+                    <button class="btn btn-outline-dark">Accessories</button>
+                    <button class="btn btn-outline-dark">Shoes</button>
+                    <button class="btn btn-outline-dark">Hats</button>
+                </div>
+            </section>
 
-        <!-- Filter Buttons -->
-        <section class="my-4">
-            <h3>Categories</h3>
-            <div class="d-flex gap-3">
-                <button class="btn btn-outline-dark">All</button>
-                <button class="btn btn-outline-dark">Clothing</button>
-                <button class="btn btn-outline-dark">Accessories</button>
-                <button class="btn btn-outline-dark">Shoes</button>
-                <button class="btn btn-outline-dark">Hats</button>
-            </div>
-        </section>
-
-        <!-- Product Grid -->
-        <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
-            <!-- Placeholder for dynamically loaded products -->
-            @if (Model == null)
-            {
-                <p colspan="5" class="text-center">No Model Data</p>
-            }
-            else
-            {
-                @foreach (var p in Model)
+            <!-- Product Grid -->
+            <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Placeholder for dynamically loaded products -->
+                @if (Model == null)
                 {
-                    <div class="col">
-                        <div class="card h-100 text-center">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
-                            <div class="card-body">
+                    <p colspan="5" class="text-center">No Model Data</p>
+                }
+                else
+                {
+                    @foreach (var p in Model)
+                    {
+                        <div class="col">
+                            <div class="card h-100 text-center">
+                                <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
+                                <div class="card-body">
 
-                                <h5 class="card-title">@p.ProductName</h5>
-                                <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
-                                @* <a class="btn btn-outline-dark" asp-action="Details" asp-controller="Product" asp-route-id="@p.ProductId">Details</a> *@
-                                @* <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@p.ProductId">Details</a> *@
-                                <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
+                                    <h5 class="card-title">@p.ProductName</h5>
+                                    <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
+                                    @* <a class="btn btn-outline-dark" asp-action="Details" asp-controller="Product" asp-route-id="@p.ProductId">Details</a> *@
+                                    @* <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@p.ProductId">Details</a> *@
+                                    <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
-            }
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 </div>
-
