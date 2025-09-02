@@ -3,15 +3,15 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure full height */
+    height: 100%; 
 }
 
 .sidebar {
-    margin: 0; /* Remove any margin */
-    padding: 0; /* Remove any padding */
-    position: fixed; /* Ensure it's pinned to the side */
-    top: 0; /* Remove any space above */
-    left: 0; /* Ensure it starts at the left */
+    margin: 0; 
+    padding: 0; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
 }
 
 .scrollable-container {
@@ -45,7 +45,7 @@ html, body {
 
 /* Active link highlight */
 .nav-link.active {
-    background-color: #6c757d; /* Highlight color */
+    background-color: #6c757d;
     color: white;
     font-weight: bold;
 }
