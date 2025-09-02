@@ -3,6 +3,8 @@
 ## About this project
 AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventory management and user administration. It provides a streamlined interface for branch managers, administrators, and sales assistants to manage products, track inventory, and gain insights through analytics.
 
+![image](https://github.com/user-attachments/assets/1cd265f5-9131-4248-89c4-229f60515b1b)
+
 ---
 
 ## Features
@@ -11,6 +13,8 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 - Track product quantities, categories, and branch allocations.
 - Generate alerts for low-stock items.
 
+![image](https://github.com/user-attachments/assets/25424f58-d270-437e-8d41-7a310c77e234)
+
 ### User Management
 - Create and manage user accounts for different roles:
   - **Branch Managers**
@@ -18,10 +22,14 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
   - **Sales Assistants**
 - Assign users to specific branches.
 
+![image](https://github.com/user-attachments/assets/0612d249-1c6b-4ec2-86e0-479f7ec3e478)
+
 ### Analytics Dashboard
 - Visualise inventory and user statistics.
 - Analyse inventory value and low-stock alerts.
 - Role-based insights for effective decision-making.
+
+![image](https://github.com/user-attachments/assets/5d41ccd5-eb84-4628-948e-7ba7967ad974)
 
 ### Responsive Design
 - Fully styled with **CSS** and responsive layouts.
@@ -46,8 +54,35 @@ AIMS is a versatile ASP.NET Core MVC application tailored for efficient inventor
 ---
 
 ## Project Structure
-AIMS/ ├── Controllers/ │ ├── HomeController.cs │ ├── InventoryController.cs │ ├── OrderController.cs │ ├── ProductController.cs │ └── UserController.cs ├── Data/ │ ├── DataAccess.cs │ ├── ProductData.cs │ └── UserData.cs ├── Models/ │ ├── Product.cs │ ├── Users.cs │ └── ErrorViewModel.cs ├── Views/ │ ├── Home/ │ ├── Inventory/ │ ├── User/ │ └── Shared/ ├── wwwroot/ │ ├── css/ │ │ └── site.css ├── appsettings.json ├── Program.cs ├── launchSettings.json
 
+```
+AIMS/ 
+  |- Controllers/ 
+    |-  HomeController.cs 
+    |-  InventoryController.cs  
+    |-  OrderController.cs  
+    |-  ProductController.cs  
+    |-  UserController.cs 
+  |-  Data/  
+    |-  DataAccess.cs  
+    |-  ProductData.cs  
+    |-  UserData.cs 
+  |-  Models/  
+    |-  Product.cs  
+    |-  Users.cs  
+    |-  ErrorViewModel.cs 
+  |- Views/  
+    |-  Home/  
+    |-  Inventory/  
+    |-  User/  
+  |-  Shared/ 
+    |-  wwwroot/  
+    |- css/  
+    |-  site.css 
+    |-  appsettings.json 
+    |-  Program.cs 
+    |-  launchSettings.json
+```
 
 ---
 
@@ -59,26 +94,100 @@ AIMS/ ├── Controllers/ │ ├── HomeController.cs │ ├── Inven
 - Install [Visual Studio 2022](https://visualstudio.microsoft.com/) with ASP.NET and web development workload.
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/M00nlightbee/AIMS.git
-   cd aims
-Set up the database:
-Configure the connection string in appsettings.json.
-Run the application:
-dotnet run
-Access the application in your browser:
-http://localhost:5213
-Usage
 
-Branch Managers: Monitor and manage branch-specific inventory.
-Administrators: Oversee all users, roles, and analytics.
-Sales Assistants: View inventory details and assist with sales operations.
-Contributing
+1. Open SQL Server Object Explorer
+Launch Visual Studio and navigate to View > SQL Server Object Explorer.
 
+2. Connect to the Database
+In SQL Server Object Explorer, click Add SQL Server. Select localdb\MSSQLLocalDB and click Connect.
 
+3. Create the Database
+Right-click Databases in the connected server, select Add New Database, name it AIMS, and click OK.
+
+4. Create Tables
+Expand the AIMS database node, right-click Tables, and select Add New Table. Use the following structure:
+
+```bash
+CREATE TABLE [dbo].[Users] (
+    [UserId]       INT           IDENTITY (1, 1) NOT NULL,
+    [FirstName]    NVARCHAR (50) NULL,
+    [LastName]     NVARCHAR (50) NULL,
+    [Branch]       NVARCHAR (50) NULL,
+    [Role]         NVARCHAR (50) NULL,
+    [Email]        NVARCHAR (50) NULL,
+    [UserPassword] NVARCHAR (50) NULL,
+    [CreatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]  DATE          DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC)
+);
+```
+
+```bash
+CREATE TABLE [dbo].[Product] (
+    [ProductId]          INT            IDENTITY (1, 1) NOT NULL,
+    [ProductName]        NVARCHAR (50)  NOT NULL,
+    [ProductDescription] NVARCHAR (MAX) NOT NULL,
+    [ProductSize]        NVARCHAR (50)  NOT NULL,
+    [Quantity]           INT            NOT NULL,
+    [Price]              MONEY          NOT NULL,
+    [Branch]             NVARCHAR (50)  NOT NULL,
+    [Category]           NVARCHAR (50)  NOT NULL,
+    [CreatedDate]        DATE           DEFAULT (getdate()) NOT NULL,
+    [UpdatedDate]        DATE           DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ProductId] ASC)
+);
+```
+
+```bash
+ CREATE TABLE [dbo].[Orders] (
+    [OrderId]       INT  IDENTITY (1, 1) NOT NULL,
+    [OrderQuantity] INT  NOT NULL,
+    [CreatedAt]     DATE DEFAULT (getdate()) NOT NULL,
+    [ProductId]     INT  NULL,
+    PRIMARY KEY CLUSTERED ([OrderId] ASC),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
+);
+```
+
+```bash
+CREATE TABLE [dbo].[ArchivedOrderDetails] (
+    [ArchivedOrderId] INT  IDENTITY (1, 1) NOT NULL,
+    [OrderId]         INT  NOT NULL,
+    [OrderNumber]     INT  NOT NULL,
+    [OrderQuantity]   INT  NOT NULL,
+    [CreatedAt]       DATE DEFAULT (getdate()) NOT NULL,
+    [ProductId]       INT  NULL,
+    PRIMARY KEY CLUSTERED ([ArchivedOrderId] ASC),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
+);
+```
+
+5. Insert Dummy Data Open a new query in SQL Server Object Explorer and execute the following scripts:
+
+```bash
+INSERT INTO [dbo].[Users] ([FirstName], [LastName], [Branch], [Role], [Email], [UserPassword], [CreatedDate], [UpdatedDate])
+VALUES 
+('Alice', 'Admin', 'Sheffield', 'Admin', 'alice.admin@example.com', 'pwdAdmin', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Bob', 'Manager', 'London', 'Manager', 'bob.manager@example.com', 'pwdManager', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790'),
+('Charlie', 'Associate', 'Derby', 'Associate', 'charlie.sales@example.com', 'pwdAssociate', '2025-01-01 19:08:08.790', '2025-01-01 19:08:08.790');
+```
+
+### Configure connection
+- Configure the connection string in appsettings.json.
+- Run the application: dotnet run
+- Access the application in your browser:  http://localhost:yourlocalport
+
+---
+
+## Usage
+- Branch Managers: Monitor and manage branch-specific inventory.
+- Administrators: Oversee all users, roles, and analytics.
+- Sales Assistants: View inventory details and assist with sales operations.
+
+---
+
+## Contributing
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Contact for queries or feedback:
-Email: Aim@gmail.com
+Contact for queries or feedback: Please leave a comment on the repo
