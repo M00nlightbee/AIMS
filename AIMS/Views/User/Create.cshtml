@@ -10,34 +10,34 @@
 	<h1>Create Product</h1>
 	<form method="post">
 		<div class="form-group">
-			<label asp-for="FirstName">First Name</label>
-			<input class="form-control" asp-for="FirstName" />
+			<label asp-for="FirstName">First Name <span aria-label="required">*</span></label>
+			<input required class="form-control" asp-for="FirstName" />
 		</div>
 		<div class="form-group">
-			<label asp-for="LastName">Last Name</label>
-			<input class="form-control" asp-for="LastName" />
+			<label asp-for="LastName">Last Name <span aria-label="required">*</span></label>
+			<input required class="form-control" asp-for="LastName" />
 		</div>
 		<div class="form-group">
-			<label asp-for="Email">Email</label>
-			<input class="form-control" asp-for="Email" />
+			<label asp-for="Email">Email <span aria-label="required">*</span></label>
+			<input required class="form-control" asp-for="Email" />
 		</div>
 		<div class="form-group">
-			<label asp-for="UserPassword">User Password</label>
-			<input class="form-control" asp-for="UserPassword" />
+			<label asp-for="UserPassword">User Password <span aria-label="required">*</span></label>
+			<input required class="form-control" asp-for="UserPassword" />
 		</div>
 		<div class="form-group">
-			<label asp-for="Branch">Branch</label>
-			<select class="form-select" asp-for="Branch">
-				<option value="Select a branch">Select a branch</option>
+			<label asp-for="Branch">Branch <span aria-label="required">*</span></label>
+			<select required class="form-select" asp-for="Branch">
+				<option value="" disabled selected>Select a branch</option>
 				<option value="Sheffield">Sheffield</option>
 				<option value="London">London</option>
 				<option value="Derby">Derby</option>
 			</select>
 		</div>
 		<div class="form-group">
-			<label asp-for="Role">Role</label>
-			<select class="form-select" asp-for="Role">
-				<option value="Select a Role">Select a Role</option>
+			<label asp-for="Role">Role <span aria-label="required">*</span></label>
+			<select required class="form-select" asp-for="Role">
+				<option value="" disabled selected>Select a Role</option>
 				<option value="Admin">Admin</option>
 				<option value="Manager">Manager</option>
 				<option value="Associate">Associate</option>
