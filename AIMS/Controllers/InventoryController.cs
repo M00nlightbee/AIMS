@@ -92,13 +92,14 @@ namespace AIMS.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					//validate updated date before updating the product
 					var existingProduct = _dataAccess.GetProductById(id);
-					if (existingProduct != null && existingProduct.CreatedDate == product.UpdatedDate)
+					if (existingProduct == null)
 					{
-						ModelState.AddModelError("UpdatedDate", "Updated date cannot be the same as the created date.");
-						return View(product);
+						return NotFound();
 					}
+					product.CreatedDate = existingProduct.CreatedDate;
+					product.UpdatedDate = DateTime.Now; // Auto update updated date to be today
+
 					_dataAccess.UpdateProduct(product, id);
 					return RedirectToAction("Index");
 				}

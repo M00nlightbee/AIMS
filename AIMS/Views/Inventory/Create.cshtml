@@ -5,29 +5,21 @@
     ViewData["Title"] = "Create Product";
 }
 
-<style>
-    .scrollable-container {
-        max-height: calc(100vh - 100px); /* Adjust as needed for header/footer spacing */
-        overflow-y: auto;
-        padding: 10px;
-    }
-</style>
-
 <div class="col-md-10 ms-sm-auto px-md-4 scrollable-container">
     <h1>Create Product</h1>
     <form method="post">
         <div class="form-group">
-            <label asp-for="ProductName">Product Name</label>
-            <input class="form-control" asp-for="ProductName" />
+            <label asp-for="ProductName">Product Name <span aria-label="required">*</span></label>
+            <input required class="form-control" asp-for="ProductName" />
         </div>
         <div class="form-group">
-            <label asp-for="ProductDescription">Description</label>
-            <textarea asp-for="ProductDescription" class="form-control" rows="3"></textarea>
+            <label asp-for="ProductDescription">Description<span aria-label="required">*</span></label>
+            <textarea asp-for="ProductDescription" required class="form-control" rows="3"></textarea>
         </div>
         <div class="form-group">
-            <label asp-for="ProductSize">Size</label>
-            <select class="form-select" asp-for="ProductSize">
-                <option value="Select a size">Select a size</option>
+            <label asp-for="ProductSize">Size <span aria-label="required">*</span></label>
+            <select required class="form-select" asp-for="ProductSize">
+                <option value="" disabled selected>Select a size</option>
                 <option value="XS">XS</option>
                 <option value="S">S</option>
                 <option value="M">M</option>
@@ -38,26 +30,26 @@
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="Quantity">Quantity</label>
-            <input class="form-control" asp-for="Quantity" />
+            <label asp-for="Quantity">Quantity <span aria-label="required">*</span></label>
+            <input required class="form-control" asp-for="Quantity" />
         </div>
         <div class="form-group">
-            <label asp-for="Price">Price</label>
-            <input class="form-control" asp-for="Price" />
+            <label asp-for="Price">Price <span aria-label="required">*</span></label>
+            <input required class="form-control" asp-for="Price" />
         </div>
         <div class="form-group">
-            <label asp-for="Branch">Branch</label>
-            <select class="form-select" asp-for="Branch">
-                <option value="Select a branch">Select a branch</option>
+            <label asp-for="Branch">Branch <span aria-label="required">*</span></label>
+            <select required class="form-select" asp-for="Branch">
+                <option value="" disabled selected>Select a branch</option>
                 <option value="Sheffield">Sheffield</option>
                 <option value="London">London</option>
                 <option value="Derby">Derby</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="Category">Category</label>
-            <select class="form-select" asp-for="Category">
-                <option value="Select a category">Select a category</option>
+            <label asp-for="Category">Category<span aria-label="required">*</span></label>
+            <select required class="form-select" asp-for="Category">
+                <option value="" disabled selected>Select a category</option>
                 <option value="Clothing">Clothing</option>
                 <option value="Accessories">Accessories</option>
                 <option value="Hats">Hats</option>
