@@ -39,8 +39,10 @@ namespace AIMS.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+			TempData["LoggedOut"] = true;
+			HttpContext.Session.Clear();
+			return RedirectToAction("Index");
+
         }
     }
 }

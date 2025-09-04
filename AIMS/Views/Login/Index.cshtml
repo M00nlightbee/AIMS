@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    var loggedOut = TempData["LoggedOut"] as bool?;
 }
 
 <div class="container-fluid px-3 py-4">
@@ -26,3 +27,41 @@
         </div>
     </div>
 </div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="loggedOutModal" tabindex="-1" aria-labelledby="loggedOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loggedOutLabel">Logged Out</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Successfully Logged Out.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     // Function to show the LogOut added modal
+    function showLoggedOutModal() {
+        const loggedOutModal = new bootstrap.Modal(document.getElementById('loggedOutModal'));
+        loggedOutModal.show();
+    }
+
+    // Check if the user has logged out and show the modal
+    @if (loggedOut == true)
+    {
+            <text>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                        showLoggedOutModal();
+                });
+            </text>
+    }
+
+</script>
+
