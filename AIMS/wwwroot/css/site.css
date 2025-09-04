@@ -26,10 +26,11 @@ html, body {
 
 .nav-item {
     margin: 0;
+    padding-left: 10px;
 }
 
 .nav-link {
-    display: block;
+    display: flex;
     color: #dcdcdc;
     padding: 10px 20px;
     text-decoration: none;
@@ -38,6 +39,7 @@ html, body {
 .nav-link:hover {
     background-color: #495057;
     color: white;
+    padding-left: 10px;
 }
 
 /* Active link highlight */
@@ -45,6 +47,7 @@ html, body {
     background-color: #6c757d;
     color: white;
     font-weight: bold;
+    padding-left: 10px;
 }
 
 input:invalid {
@@ -80,3 +83,22 @@ textarea:focus:invalid {
     max-width: 600px;
     max-height: 600px;
 }
+
+@media (max-width: 1366px) {
+    .category-btn-group {
+        display: none !important;
+    }
+
+    .category-dropdown {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1367px) {
+    .category-btn-group {
+        display: flex !important;
+    }
+
+    .category-dropdown {
+        display: none !important;
+    }

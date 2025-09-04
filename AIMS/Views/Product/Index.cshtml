@@ -4,6 +4,10 @@
 
 @{
     ViewData["Title"] = "Products Page";
+    var categories = new[]
+    {
+        "All", "Tops", "Accessories", "Shoes", "Hats", "Tracksuits", "Trousers", "Jeans", "Shorts", "Skirts", "Dresses", "Jumpsuits", "Coats & Jackets"
+    };
 }
 
 <div class="container-fluid px-3 py-4">
@@ -12,19 +16,35 @@
             <h2 class="mb-4 text-center">Products</h2>
             <!-- Filter Buttons -->
             <section class="my-4">
-                <h3>Categories</h3>
-                <div class="d-flex gap-3">
-                    <button class="btn btn-outline-dark">All</button>
-                    <button class="btn btn-outline-dark">Clothing</button>
-                    <button class="btn btn-outline-dark">Accessories</button>
-                    <button class="btn btn-outline-dark">Shoes</button>
-                    <button class="btn btn-outline-dark">Hats</button>
+                <!-- Button group for screens wider than 1366px -->
+                <div class="btn-group mx-3 category-btn-group" role="group" aria-label="Default button group">
+                    <h3 class="mx-3">Categories</h3>
+                    @foreach (var option in categories)
+                    {
+                        <button class="btn btn-outline-dark filter-btn" data-category="@option">@option</button>
+                    }
+                </div>
+                <!-- Dropdown for screens 1366px wide or less -->
+                <div class="mx-3 category-dropdown" style="display:none;">
+                    <h3 class="mb-2">Categories</h3>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Category
+                        </button>
+                        <ul class="dropdown-menu w-100" aria-labelledby="categoryDropdown">
+                            @foreach (var option in categories)
+                            {
+                                <li>
+                                    <a class="dropdown-item filter-dropdown" href="#" data-category="@option">@option</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </section>
 
             <!-- Product Grid -->
             <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
-                <!-- Placeholder for dynamically loaded products -->
                 @if (Model == null)
                 {
                     <p colspan="5" class="text-center">No Model Data</p>
@@ -37,11 +57,8 @@
                             <div class="card h-100 text-center">
                                 <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
                                 <div class="card-body">
-
                                     <h5 class="card-title">@p.ProductName</h5>
                                     <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
-                                    @* <a class="btn btn-outline-dark" asp-action="Details" asp-controller="Product" asp-route-id="@p.ProductId">Details</a> *@
-                                    @* <a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@p.ProductId">Details</a> *@
                                     <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
                                 </div>
                             </div>
@@ -54,9 +71,9 @@
 </div>
 
 <script>
-document.querySelectorAll('.btn-outline-dark').forEach(btn => {
+document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        const category = btn.textContent.trim();
+        const category = btn.getAttribute('data-category');
         document.querySelectorAll('#productGrid .col').forEach(card => {
             if (category === 'All' || card.getAttribute('data-category') === category) {
                 card.style.display = '';
@@ -64,6 +81,22 @@ document.querySelectorAll('.btn-outline-dark').forEach(btn => {
                 card.style.display = 'none';
             }
         });
+    });
+});
+
+document.querySelectorAll('.filter-dropdown').forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const category = item.getAttribute('data-category');
+        document.querySelectorAll('#productGrid .col').forEach(card => {
+            if (category === 'All' || card.getAttribute('data-category') === category) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        document.getElementById('categoryDropdown').textContent = category;
     });
 });
 </script>
