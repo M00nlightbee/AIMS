@@ -55,6 +55,7 @@ namespace AIMS.Controllers
 				if (ModelState.IsValid)
 				{
 					_dataAccess.CreateProduct(product);
+					TempData["ProductAdded"] = true;
 					return RedirectToAction("Index");
 				}
 				return View(product);

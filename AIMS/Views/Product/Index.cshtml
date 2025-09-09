@@ -70,33 +70,4 @@
     </div>
 </div>
 
-<script>
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const category = btn.getAttribute('data-category');
-        document.querySelectorAll('#productGrid .col').forEach(card => {
-            if (category === 'All' || card.getAttribute('data-category') === category) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    });
-});
-
-document.querySelectorAll('.filter-dropdown').forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.preventDefault();
-        const category = item.getAttribute('data-category');
-        document.querySelectorAll('#productGrid .col').forEach(card => {
-            if (category === 'All' || card.getAttribute('data-category') === category) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        document.getElementById('categoryDropdown').textContent = category;
-    });
-});
-</script>
+<script src="~/js/site.js"></script>

@@ -12,10 +12,10 @@
             <h2 class="mb-4 text-center">User control</h2>
             <div class="row g-3">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Search by name..." oninput="filterTable()">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by name..." oninput="filterUserTable()">
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select" id="branchFilter" onchange="filterTable()">
+                    <select class="form-select" id="branchFilter" onchange="filterUserTable()">
                         <option value="">Branch</option>
                         <option value="Sheffield">Sheffield</option>
                         <option value="London">London</option>
@@ -23,11 +23,11 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select" id="roleFilter" onchange="filterTable()">
+                    <select class="form-select" id="roleFilter" onchange="filterUserTable()">
                         <option value="">Role</option>
                         <option value="Admin">Admin</option>
-                        <option value="Branch Manager">Branch Manager</option>
-                        <option value="Sales Associate"> Sales Associate</option>
+                        <option value="Manager">Branch Manager</option>
+                        <option value="Associate"> Sales Associate</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -97,48 +97,17 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="~/js/site.js"></script>
+
 <script>
-    // Function to filter the user table
-    function filterTable() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const branchFilter = document.getElementById('branchFilter').value.toLowerCase();
-        const roleFilter = document.getElementById('roleFilter').value.toLowerCase();
-        const tableRows = document.querySelectorAll('#userTableBody tr');
-
-        tableRows.forEach(row => {
-            const firstName = row.children[0].textContent.toLowerCase();
-            const lastName = row.children[1].textContent.toLowerCase();
-            const branch = row.children[2].textContent.toLowerCase();
-            const role = row.children[3].textContent.toLowerCase();
-
-            // Filter conditions
-            const matchesSearch = !searchInput || firstName.includes(searchInput) || lastName.includes(searchInput);
-            const matchesBranch = !branchFilter || branch === branchFilter;
-            const matchesRole = !roleFilter || role === roleFilter;
-
-            // Show/hide rows based on filters
-            if (matchesSearch && matchesBranch && matchesRole) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-
-     // Function to show the user added modal
-    function showUserAddedModal() {
-        const userAddedModal = new bootstrap.Modal(document.getElementById('userAddedModal'));
-        userAddedModal.show();
-    }
-
-    // Check if the user was added and show the modal
     @if (userAdded == true)
     {
         <text>
-            document.addEventListener('DOMContentLoaded', (event) => {
-                showUserAddedModal();
-            });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            showUserAddedModal();
+        });
         </text>
     }
-
 </script>
+

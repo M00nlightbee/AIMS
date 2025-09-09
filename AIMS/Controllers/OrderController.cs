@@ -50,7 +50,6 @@ namespace AIMS.Controllers
 				if (product != null && product.Quantity > 0)
 				{
 					_dataAccess.AddItemToOrder(orders);
-					//ViewBag.Message = "Item Successfully Added";
 					return RedirectToAction("Index");
 				}
 				else
@@ -91,7 +90,6 @@ namespace AIMS.Controllers
         public IActionResult Delete(int id)
         {
             _dataAccess.RemoveItemFromOrder(id);
-            //ViewBag.Message = "Item Successfully Removed";
             return RedirectToAction("Index");
         }
 
@@ -121,7 +119,6 @@ namespace AIMS.Controllers
 			// Redirect to index if there is not enough stock
 			else
 			{
-				//ViewBag.Message = "Cannot update inventory. Some items have insufficient stock.";
 				return RedirectToAction("Index");
 			}
 		}

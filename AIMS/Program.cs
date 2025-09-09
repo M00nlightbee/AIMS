@@ -25,7 +25,7 @@ builder.Services.AddSingleton<OrderData>();
 builder.Services.AddSingleton<HistoryData>();
 
 // Register additional services
-builder.Services.AddScoped<UserService>(); // Add UserService to DI
+builder.Services.AddScoped<UserService>(); // Add UserService
 
 var app = builder.Build();
 

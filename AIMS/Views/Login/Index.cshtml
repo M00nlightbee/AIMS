@@ -46,12 +46,9 @@
     </div>
 </div>
 
+<script src="~/js/site.js"></script>
+
 <script>
-     // Function to show the LogOut added modal
-    function showLoggedOutModal() {
-        const loggedOutModal = new bootstrap.Modal(document.getElementById('loggedOutModal'));
-        loggedOutModal.show();
-    }
 
     // Check if the user has logged out and show the modal
     @if (loggedOut == true)
@@ -64,4 +61,5 @@
     }
 
 </script>
+
 

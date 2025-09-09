@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Inventory Page";
+    var productAdded = TempData["ProductAdded"] as bool?;
 }
 
 <div class="container-fluid px-3 py-4">
@@ -11,10 +12,10 @@
             <h2 class="mb-4 text-center">Inventory</h2>
             <div class="row g-3">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Search by item..." oninput="filterTable()">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by item..." oninput="filterInventoryTable()">
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select" id="branchFilter" onchange="filterTable()">
+                    <select class="form-select" id="branchFilter" onchange="filterInventoryTable()">
                         <option value="">Branch</option>
                         <option value="Sheffield">Sheffield</option>
                         <option value="London">London</option>
@@ -22,7 +23,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select" id="categoryFilter" onchange="filterTable()">
+                    <select class="form-select" id="categoryFilter" onchange="filterInventoryTable()">
                         <option value="">Category</option>
                         <option value="Tops">Tops</option>
                         <option value="Accessories">Accessories</option>
@@ -103,62 +104,34 @@
     </div>
 </div>
 
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="productAddedModal" tabindex="-1" aria-labelledby="productAddedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productAddedModalLabel">Product Added</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                A new product has been successfully added to the Inventory.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="~/js/site.js"></script>
+
 <script>
-    // Function to filter the inventory table
-    function filterTable() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const branchFilter = document.getElementById('branchFilter').value.toLowerCase();
-        const categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
-        const tableRows = document.querySelectorAll('#inventoryTableBody tr');
-
-        tableRows.forEach(row => {
-            const itemName = row.children[0].textContent.toLowerCase();
-            const category = row.children[1].textContent.toLowerCase();
-            const branch = row.children[2].textContent.toLowerCase();
-
-            // Filter conditions
-            const matchesSearch = !searchInput || itemName.includes(searchInput);
-            const matchesBranch = !branchFilter || branch === branchFilter;
-            const matchesCategory = !categoryFilter || category === categoryFilter;
-
-            // Show/hide rows based on filters
-            if (matchesSearch && matchesBranch && matchesCategory) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const generateReport = document.getElementById('generateReport');
-        const table = document.getElementById('inventoryTable');
-
-        generateReport.addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            let y = 20;
-            doc.text('Inventory Report', 14, 10);
-            doc.setFontSize(10);
-
-            // Add headers
-            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
-            doc.text(headers.join(' | '), 14, y);
-            y += 10;
-
-            // Add data rows
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                if (row.style.display !== 'none') { // Include only visible rows
-                    const cells = Array.from(row.querySelectorAll('td:not(:last-child)')).map(td => td.textContent.trim());
-                    doc.text(cells.join(' | '), 14, y);
-                    y += 10;
-                }
+    @if (productAdded == true)
+    {
+            <text>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                showProductAddedModal();
             });
-
-            doc.save('inventory_report.pdf');
-        });
-    });
+            </text>
+    }
 </script>
