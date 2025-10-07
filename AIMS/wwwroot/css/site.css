@@ -1,9 +1,10 @@
-/* Sidebar styling */
+﻿/* Sidebar styling */
 /* Reset the margins and paddings of the body and sidebar */
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%; 
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .card-img-top {
@@ -20,39 +21,6 @@ html, body {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     padding: 10px;
-}
-
-/* Nav styles */
-.nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-item {
-    margin: 0;
-    padding-left: 10px;
-}
-
-.nav-link {
-    display: flex;
-    color: #dcdcdc;
-    padding: 10px 20px;
-    text-decoration: none;
-}
-
-.nav-link:hover {
-    background-color: #495057;
-    color: white;
-    padding-left: 10px;
-}
-
-/* Active link highlight */
-.nav-link.active {
-    background-color: #6c757d;
-    color: white;
-    font-weight: bold;
-    padding-left: 10px;
 }
 
 input:invalid {
@@ -89,21 +57,89 @@ textarea:focus:invalid {
     max-height: 600px;
 }
 
-@media (max-width: 1366px) {
-    .category-btn-group {
-        display: none !important;
+/* Sidebar base */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    background-color: #212529;
+    z-index: 1000;
+}
+
+/* Show button group on large screens, hide on small */
+.category-btn-group {
+    display: flex;
+}
+
+.category-dropdown {
+    display: none;
+}
+
+/* --- MOBILE (<=768px) --- */
+@media (max-width: 768px) {
+    /* Push sidebar down when navbar is shown */
+    .sidebar {
+        top: 56px; /* same height as your mobile navbar */
+        height: calc(100vh - 56px); /* fill remaining space */
+        transform: translateX(-100%);
     }
 
-    .category-dropdown {
-        display: block !important;
+    /* When sidebar is toggled open */
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    /* Prevent overlap with mobile navbar */
+    main {
+        padding-top: 56px;
     }
 }
 
-@media (min-width: 1367px) {
-    .category-btn-group {
-        display: flex !important;
+/* --- DESKTOP (>=769px) --- */
+@media (min-width: 769px) {
+    .sidebar {
+        top: 0;
+        height: 100vh;
+        transform: translateX(0);
     }
 
-    .category-dropdown {
+    main {
+        margin-left: 220px;
+    }
+
+    footer {
+        margin-left: 220px;
+    }
+}
+
+/* Active link highlight */
+.nav-link.active {
+    background-color: #6c757d;
+    color: white !important;
+    font-weight: bold;
+}
+
+@media (max-width: 1366px) {
+    
+    .category-btn-group {
         display: none !important;
     }
+    .category-dropdown {
+        display: block !important;
+    }
+
+    html, body {
+        overflow-x: scroll;
+    }
+}
+
+.filter-btn.active {
+    background-color: #6c757d;
+    color: white !important;
+    font-weight: bold;
+}
+

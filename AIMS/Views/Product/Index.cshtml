@@ -12,61 +12,83 @@
 
 <div class="container-fluid px-3 py-4">
     <div class="row justify-content-center">
-        <main>
-            <h2 class="mb-4 text-center">Products</h2>
-            <!-- Filter Buttons -->
-            <section class="my-4">
-                <!-- Button group for screens wider than 1366px -->
-                <div class="btn-group mx-3 category-btn-group" role="group" aria-label="Default button group">
-                    <h3 class="mx-3">Categories</h3>
-                    @foreach (var option in categories)
-                    {
-                        <button class="btn btn-outline-dark filter-btn" data-category="@option">@option</button>
-                    }
-                </div>
-                <!-- Dropdown for screens 1366px wide or less -->
-                <div class="mx-3 category-dropdown" style="display:none;">
-                    <h3 class="mb-2">Categories</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Category
-                        </button>
-                        <ul class="dropdown-menu w-100" aria-labelledby="categoryDropdown">
-                            @foreach (var option in categories)
-                            {
-                                <li>
-                                    <a class="dropdown-item filter-dropdown" href="#" data-category="@option">@option</a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Product Grid -->
-            <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
-                @if (Model == null)
+        <h2 class="mb-4 text-center">Products</h2>
+        <!-- Filter Buttons -->
+        <section class="my-4">
+            <h5 class="mx-3">Categories</h5>
+            <!-- Button group for screens wider than 1366px -->
+            <div class="btn-group mx-3 category-btn-group" role="group" aria-label="Default button group">   
+                @foreach (var option in categories)
                 {
-                    <p colspan="5" class="text-center">No Model Data</p>
+                    <button class="btn btn-outline-dark filter-btn" data-category="@option">@option</button>
                 }
-                else
+            </div>
+            <!-- Dropdown for screens 1366px wide or less -->
+            <div class="mx-3 category-dropdown" >
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Category
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="categoryDropdown">
+                        @foreach (var option in categories)
+                        {
+                            <li>
+                                <a class="dropdown-item filter-dropdown" href="#" data-category="@option">@option</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <style>
+                .filter-btn.active, .filter-dropdown.active {
+                    background-color: #212529;
+                    color: #fff !important;
+                }
+            </style>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Button group
+                    document.querySelectorAll('.filter-btn').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                        });
+                    });
+                    // Dropdown
+                    document.querySelectorAll('.filter-dropdown').forEach(function (item) {
+                        item.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            document.querySelectorAll('.filter-dropdown').forEach(i => i.classList.remove('active'));
+                            item.classList.add('active');
+                        });
+                    });
+                });
+            </script>
+        </section>
+
+        <!-- Product Grid -->
+        <section id="productGrid" class="row row-cols-1 row-cols-md-3 g-4">
+            @if (Model == null)
+            {
+                <p colspan="5" class="text-center">No Model Data</p>
+            }
+            else
+            {
+                @foreach (var p in Model)
                 {
-                    @foreach (var p in Model)
-                    {
-                        <div class="col" data-category="@p.Category">
-                            <div class="card h-100 text-center">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
-                                <div class="card-body">
-                                    <h5 class="card-title">@p.ProductName</h5>
-                                    <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
-                                    <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
-                                </div>
+                    <div class="col" data-category="@p.Category">
+                        <div class="card h-100 text-center">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt=@p.ProductName>
+                            <div class="card-body">
+                                <h5 class="card-title">@p.ProductName</h5>
+                                <p class="card-text">@string.Format(new System.Globalization.CultureInfo("en-GB"), "{0:C2}", p.Price)</p>
+                                <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Order" asp-route-id="@p.ProductId">Details</a>
                             </div>
                         </div>
-                    }
+                    </div>
                 }
-            </section>
-        </main>
+            }
+        </section>
     </div>
 </div>
 

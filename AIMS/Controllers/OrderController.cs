@@ -114,7 +114,7 @@ namespace AIMS.Controllers
 			{
 				_dataAccess.UpdateInventoryQuantity();
 				_dataAccess.ArchivedOrderDetails();
-				return RedirectToAction("Index", "Inventory");
+				return RedirectToAction("Index", "Product");
 			}
 			// Redirect to index if there is not enough stock
 			else
