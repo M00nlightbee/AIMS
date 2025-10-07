@@ -40,10 +40,20 @@
                 </div>
             </div>
             <style>
-                .filter-btn.active, .filter-dropdown.active {
-                    background-color: #212529;
-                    color: #fff !important;
+                .filter-btn,
+                .filter-btn.active,
+                .filter-dropdown,
+                .filter-dropdown.active {
+                    border-width: 1px !important;
+                    font-weight: normal !important;
                 }
+
+                    .filter-btn.active {
+                        background-color: #212529 !important;
+                        color: #fff !important;
+                        border-color: #212529 !important;
+                    }
+
             </style>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
