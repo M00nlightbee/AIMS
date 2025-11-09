@@ -196,5 +196,5 @@ Contact for queries or feedback: Please leave a comment on the repo
 
 ## Credits
 
-Frontend - [Deeshan Ranathunga](https://github.com/DeeshanR) and [Emmanuel Atiso](https://github.com/Emmanuel-Atiso)
-Testing - Morgan
+- Frontend - [Deeshan Ranathunga](https://github.com/DeeshanR) and [Emmanuel Atiso](https://github.com/Emmanuel-Atiso)
+- Testing - Morgan
