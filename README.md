@@ -191,3 +191,10 @@ VALUES
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 Contact for queries or feedback: Please leave a comment on the repo
+
+---
+
+## Credits
+
+Frontend - [Deeshan Ranathunga](https://github.com/DeeshanR) and [Emmanuel Atiso](https://github.com/Emmanuel-Atiso)
+Testing - Morgan
