@@ -194,7 +194,8 @@ Contact for queries or feedback: Please leave a comment on the repo
 
 ---
 
-## Credits
+## Contributors
 
 - Frontend - [Deeshan Ranathunga](https://github.com/DeeshanR) and [Emmanuel Atiso](https://github.com/Emmanuel-Atiso)
+- README.md and License - [Emmanuel Atiso](https://github.com/Emmanuel-Atiso)
 - Testing - Morgan
